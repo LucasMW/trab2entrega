@@ -1,0 +1,42 @@
+Para Executar o projeto
+
+Para ler o Diagrama da Arquitetura da aplicação:
+clicar em diag_arq.pdf
+
+Para ler o Modelo Físico e suas Assertivas:
+Clicar em MFA.pdf
+
+Para ler os Requisitos do projeto
+Clicar em requisitos.pdf
+
+Para ler os Relatórios de trabalho dos integrantes do grupo:
+clicar em relatório_lorenzo.txt
+clicar em relatório_lucas.txt
+clicar em relatório_felipe.txt
+
+Para Executar os do TADLISTA:
+clicar em modulo1
+clicar em trab2lista.bat 
+e ler o relatório gerado (um arquivo.txt)
+
+Para ler o script de teste:
+testelista.bat
+
+Para Ler os arquivos fontes do TADLISTA
+clicar em modulo1
+clicar em fontes
+e ler os módulos (arquivos .c e .h)
+
+Para Executar os do TADGRAFO:
+clicar em modulo2
+clicar em trab2grafo.bat 
+e ler o relatório gerado (um arquivo.txt)
+
+Para ler o script de teste:
+testegrafo.bat
+
+Para Ler os arquivos fontes do TADGRAFO
+clicar em modulo2
+clicar em fontes
+e ler os módulos (arquivos .c e .h)
+

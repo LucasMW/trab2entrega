@@ -1,0 +1,4 @@
+Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
+
+09/SET/2014; 1h; Projetar; Rascunhei diretórios e os requisitos
+13/SET/2014; 3h; Projetar; Projetei a organização dos diretórios	
