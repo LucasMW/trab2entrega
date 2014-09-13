@@ -1,1 +1,3 @@
 Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
+
+09/SET/2014; 1h; Projetar; Rascunho dos requisitos
