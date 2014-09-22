@@ -28,7 +28,7 @@ clicar em fontes
 e ler os módulos (arquivos .c e .h)
 
 Para Executar os do TADGRAFO:
-clicar em modulo2
+clicar em grafo
 clicar em trab2grafo.bat 
 e ler o relatório gerado (um arquivo.txt)
 
@@ -36,7 +36,7 @@ Para ler o script de teste:
 testegrafo.bat
 
 Para Ler os arquivos fontes do TADGRAFO
-clicar em modulo2
+clicar em grafo
 clicar em fontes
 e ler os módulos (arquivos .c e .h)
 
