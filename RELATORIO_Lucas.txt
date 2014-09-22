@@ -1,8 +1,10 @@
-Data ; Horas Trabalhadas ; Tipo Tarefa ; DescriÁ„o da Tarefa Realizada
+Data ; Horas Trabalhadas ; Tipo Tarefa ; Descri√ß√£o da Tarefa Realizada
 
-09/SET/2014; 1h; Projetar; Rascunhei diretÛrios e os requisitos
-13/SET/2014; 3h; Projetar; Projetei a organizaÁ„o dos diretÛrios
-20/SET/2014; 1h; Projetar; Projetamos juntos os requisitos da aplicaÁ„o
-20/SET/2014; 1h; especificar os mÛdulos; Especificamos que os mÛdulos a apresentar ser„o grafo e lista, e esboÁamos o diagrama da arquitetura.
-20/SET/2014; 1h; especificar as funÁıes; Especificamos as funÁıes do mÛdulo grafo
-20/SET/2014; 0.5h Revisar projetos; Revisamos a organizaÁ„o dos diretÛrios e criamos convenÁıes de nomes 	
+09/SET/2014; 1h; Projetar; Rascunhei diret√≥rios e os requisitos
+13/SET/2014; 3h; Projetar; Projetei a organiza√ß√£o dos diret√≥rios
+20/SET/2014; 1h; Projetar; Projetamos juntos os requisitos da aplica√ß√£o
+20/SET/2014; 1h; especificar os m√≥dulos; Especificamos que os m√≥dulos a apresentar ser√£o grafo e lista, e esbo√ßamos o diagrama da arquitetura.
+20/SET/2014; 1h; especificar as fun√ß√µes; Especificamos as fun√ß√µes do m√≥dulo grafo
+20/SET/2014; 0.5h Revisar projetos; Revisamos a organiza√ß√£o dos diret√≥rios e criamos conven√ß√µes de nomes 
+22/SET/2014; 0.5h revisar especifica√ß√µes; Revisei algumas especifica√ß√µes do m√≥dulo lista
+22/SET/2014; 0.5h codificar m√≥dulo; Comecei a codificar o m√≥dulo grafo
