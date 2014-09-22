@@ -1,41 +1,89 @@
-Ôªøtypedef struct GRA_tagGrafo * GRA_tppGrafo ;
+/***************************************************************************
+*  $MCI MÛdulo de implementaÁ„o: GRA  Grafo GenÈrico (implementado por listas)
+*
+*  Arquivo gerado:              grafo.c
+*  Letras identificadoras:      GRA
+*
+*  Nome da base de software:    ArcabouÁo para a automaÁ„o de testes de programas redigidos em C
+*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
+*
+*  Projeto: INF 1301 / 1628 AutomatizaÁ„o dos testes de mÛdulos C
+*  Gestor:  LES/DI/PUC-Rio
+*  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
+*
+*  $HA HistÛrico de evoluÁ„o:
+*     Vers„o  Autor    Data     ObservaÁıes
+*     1       LM   22/SET/2014 inÌcio desenvolvimento
 
-typedef enum {
-
-         GRA_CondRetOK ,
-               /* Concluiu corretamente */
-
-         GRA_CondRetGrafoVazio ,
-               /* o grafo n√£o cont√©m elementos */
+***************************************************************************/
+#include <stdio.h>
+#include "lista.h"
 
 
-   } GRA_tpCondRet ;
+#define GRA_OWN
+#include "grafo.h"
+#undef GRA_OWN
+
 /***********************************************************************
 *
-*  $FC Fun√ß√£o: GRA  &Criar grafo
+*  $TC Tipo de dados: LIS Elemento da lista
 *
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Cria um grafo gen√©rico composto de lista de componentes conexas e e uma lista de vertices
-*     Os poss√≠veis tipos de elem armazenados nos n√≥s do grafo s√£o desconhecidos a priori
-*     A tipagem √© implicita.
-*     N√£o existe identificador de tipo associado ao grafo?
-*
-*  $EP Par√¢metros
-*     ExcluirValor  - ponteiro para a fun√ß√£o que processa a
-*                     exclus√£o do valor referenciado pelo elemento
-*                     a ser exclu√≠do.
-*                     Ver descri√ß√£o do m√≥dulo.
-*
-*  $FV Valor retornado
-*     Se executou corretamente retorna o ponteiro para a lista.
-*     Este ponteiro ser√° utilizado pelas fun√ß√µes que manipulem esta lista.
-*
-*     Se ocorreu algum erro, por exemplo falta de mem√≥ria ou dados errados,
-*     a fun√ß√£o retornar√° NULL.
-*     N√£o ser√° dada mais informa√ß√£o quanto ao problema ocorrido.
 *
 ***********************************************************************/
-GRA_tpCondRet GRA_Cria( GRA_tppGrafo* grafo ,int max_nodes );
-GRA_tpCondRet   GRA_InsereNo ( GRA_tppGrafo* grafo, void * pInfo);
-GRA_tpCondRet  GRA_InsereAresta( GRA_tppGrafo* grafo, int node_i, int node_j, float cost, char direction);
-GRA_tpCondRet  GRA_Imprime(GRA_tppGrafo* graph);
+
+   typedef struct tagElemLista {
+
+         void * pValor ;
+               /* Ponteiro para o valor contido no elemento */
+
+         struct tagElemLista * pAnt ;
+               /* Ponteiro para o elemento predecessor */
+
+         struct tagElemLista * pProx ;
+               /* Ponteiro para o elemento sucessor */
+
+   } tpElemLista ;
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: GRA Descritor da cabeÁa de grafo
+*
+*
+***********************************************************************/
+
+   typedef struct GRA_tagGrafo {
+
+         LIS_tppLista  pOrigens ;
+               /* Ponteiro para a cabeÁa da lista de origens*/
+
+         LIS_tppLista * pVertices ;
+               /* Ponteiro para a cabeÁa da lista de vÈrtices*/
+
+         tpElemLista * pElemCorr ;
+               /* Ponteiro para o elemento corrente das operaÁıes*/
+
+         int numElem ;
+               /* N˙mero de elementos da lista */
+
+         void ( * ExcluirValor ) ( void * pValor ) ;
+               /* Ponteiro para a funÁ„o de destruiÁ„o do valor contido em um elemento */
+
+   } GRA_tpGrafo ;
+
+
+GRA_tpCondRet GRA_Cria( GRA_tppGrafo* grafo ,int max_nodes )
+{
+	return GRA_CondRetOK;
+}
+GRA_tpCondRet   GRA_InsereNo ( GRA_tppGrafo* grafo, void * pInfo)
+{
+	return GRA_CondRetOK;
+}
+GRA_tpCondRet  GRA_InsereAresta( GRA_tppGrafo* grafo, int node_i, int node_j, float cost, char direction)
+{
+	return GRA_CondRetOK;
+}
+GRA_tpCondRet  GRA_Imprime(GRA_tppGrafo* graph)
+{
+	return GRA_CondRetOK;
+}
