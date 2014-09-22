@@ -93,7 +93,7 @@
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tppLista LIS_CriarLista(
+  LIS_tpCondRet LIS_CriarLista( LIS_tppLista* refplista,
              void   ( * ExcluirValor ) ( void * pDado ) )
    {
 
@@ -102,14 +102,15 @@
       pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
       if ( pLista == NULL )
       {
-         return NULL ;
+         return LIS_CondRetFaltouMemoria ;
       } /* if */
 
       LimparCabeca( pLista ) ;
 
       pLista->ExcluirValor = ExcluirValor ;
 
-      return pLista ;
+      *refplista=pLista ;
+	  return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Criar lista */
 
@@ -118,16 +119,19 @@
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   void LIS_DestruirLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista )
    {
-
+	   LIS_tpCondRet acc;
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
-      LIS_EsvaziarLista( pLista ) ;
+      acc=LIS_EsvaziarLista( pLista );
+	 if(acc) //!= 0 => Não OK
+		return acc;
 
       free( pLista ) ;
+	  return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Destruir lista */
 
@@ -136,7 +140,7 @@
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
    {
 
       tpElemLista * pElem ;
@@ -147,14 +151,17 @@
       #endif
 
       pElem = pLista->pOrigemLista ;
+	  if(!pElem) //não tem
+		  return LIS_CondRetListaVazia;
       while ( pElem != NULL )
       {
          pProx = pElem->pProx ;
-         LiberarElemento( pLista , pElem ) ;
+         LiberarElemento( pLista , pElem ) ; //adcionar tpcondret?
          pElem = pProx ;
       } /* while */
 
-      LimparCabeca( pLista ) ;
+      LimparCabeca( pLista ) ; //adcionar tpcondret?
+	  return LIS_CondRetOK ;// tudo certo
 
    } /* Fim função: LIS  &Esvaziar lista */
 
@@ -173,7 +180,7 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir antes */
+      /* Criar elemento a inserir antes */
 
          pElem = CriarElemento( pLista , pValor ) ;
          if ( pElem == NULL )
@@ -334,7 +341,7 @@
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void IrInicioLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrInicioLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -342,6 +349,9 @@
       #endif
 
       pLista->pElemCorr = pLista->pOrigemLista ;
+	  if(!(pLista->pOrigemLista))
+		  return LIS_CondRetListaVazia; 
+	  return LIS_CondRetOK;
 
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
@@ -350,7 +360,7 @@
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void IrFinalLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrFinalLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -358,7 +368,9 @@
       #endif
 
       pLista->pElemCorr = pLista->pFimLista ;
-
+	  if(!(pLista->pFimLista)) //NULL => vazia
+		  return LIS_CondRetListaVazia;
+	  return LIS_CondRetOK ;
    } /* Fim função: LIS  &Ir para o elemento final */
 
 /***************************************************************************

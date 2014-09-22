@@ -88,8 +88,10 @@ typedef struct LIS_tagLista * LIS_tppLista ;
          LIS_CondRetNaoAchou ,
                /* Não encontrou o valor procurado */
 
-         LIS_CondRetFaltouMemoria
+         LIS_CondRetFaltouMemoria,
                /* Faltou memória ao tentar criar um elemento de lista */
+		 LIS_CondRetNaoDestruiu
+		 /* Não Conseguiu Destruir a lista */
 
    } LIS_tpCondRet ;
 
@@ -120,8 +122,13 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tppLista LIS_CriarLista(
+   LIS_tpCondRet LIS_CriarLista( LIS_tppLista* refplista,
              void   ( * ExcluirValor ) ( void * pDado ) ) ;
+   /* Mudança: Retorna Condições de Retorno, e recebe o ponteiro onde jogará a lista por referência */
+   /* CondRet: 
+   OK
+   FaltouMemoria
+   */
 
 
 /***********************************************************************
@@ -140,7 +147,13 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void LIS_DestruirLista( LIS_tppLista pLista ) ;
+    LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
+	/* Mudança: Retorna agora condições de retorno 
+	nome mudado para começar com LIS
+	CondRet:
+	OK
+	NaoDestruiu
+	*/
 
 
 /***********************************************************************
@@ -155,7 +168,12 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+   /* Mudança: retorna agora condição de retorno
+   CondRet:
+   OK
+   ListaVazia
+   */
 
 
 /***********************************************************************
@@ -204,8 +222,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          void * pValor        )
-       ;
+                                          void * pValor        );
 
 
 /***********************************************************************
@@ -263,7 +280,15 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void IrInicioLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_IrInicioLista( LIS_tppLista pLista ) ;
+
+   /* Mudança: Adicionado LIS no nome, pois pertence a esse modulo
+   Adicionadas Condições de Retorno 
+   CondRet
+   OK
+   ListaVazia -Não é erro, segundo a especificação acima, só não faz nada
+   */
+
 
 
 /***********************************************************************
@@ -279,8 +304,13 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void IrFinalLista( LIS_tppLista pLista ) ;
-
+   LIS_tpCondRet LIS_IrFinalLista( LIS_tppLista pLista ) ;
+   /* Mudança: O nome foi pra LIS_IrFinalLista pois é parte do módulo LIS
+   adicionadas condições de retorno
+   OK
+   ListaVazia -Não é erro, segundo a especificação acima, só não faz nada
+   */
+    
 
 /***********************************************************************
 *
