@@ -1,19 +1,19 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TGRA Teste grafo genérico
+*  $MCI Mï¿½dulo de implementaï¿½ï¿½o: TGRA Teste grafo genï¿½rico
 *
 *  Arquivo gerado:              TestGRA.c
 *  Letras identificadoras:      TGRA
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
+*  Nome da base de software:    Arcabouï¿½o para a automaï¿½ï¿½o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\Grafo.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatizaï¿½ï¿½o dos testes de mï¿½dulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       LM    22/SET/2014 início desenvolvimento
+*  $HA Histï¿½rico de evoluï¿½ï¿½o:
+*     Versï¿½o  Autor    Data     Observaï¿½ï¿½es
+*     1       LM    22/SET/2014 inï¿½cio desenvolvimento
 *
 ***************************************************************************/
 
@@ -37,8 +37,8 @@ static const char INSERIR_NO_CMD      [ ] = "=inserirno"   ;
 static const char INSERIR_ARESTA_CMD       [ ] = "=inseriraresta"    ;
 static const char OBTER_VALOR_CMD         [ ] = "=obtervalorno" ;
 static const char EXC_NO_CMD            [ ] = "=excluirno"    ;
-static const char EXC_ARESTA_CMD            [ ] = "=excluirelem"    ;
-/* Por hora ainda não entendo o resto*/
+static const char EXC_ARESTA_CMD            [ ] = "=excluiraresta"    ;
+/* Por hora ainda nï¿½o entendo o resto*/
 static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
 static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
 static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
@@ -55,26 +55,26 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 
 GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
-/***** Protótipos das funções encapuladas no módulo *****/
+/***** Protï¿½tipos das funï¿½ï¿½es encapuladas no mï¿½dulo *****/
 
    static void DestruirValor( void * pValor ) ;
 
    static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/*****  Cï¿½digo das funï¿½ï¿½es exportadas pelo mï¿½dulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TGRA &Testar grafo
+*  $FC Funï¿½ï¿½o: TGRA &Testar grafo
 *
-*  $ED Descrição da função
-*     Podem ser criadas até 10 grafos, identificadas pelos índices 0 a 10
+*  $ED Descriï¿½ï¿½o da funï¿½ï¿½o
+*     Podem ser criadas atï¿½ 10 grafos, identificadas pelos ï¿½ndices 0 a 10
 *
-*     Comandos disponíveis:
+*     Comandos disponï¿½veis:
 *
 *     =resetteste
-*           - anula o vetor de grafos. Provoca vazamento de memória
+*           - anula o vetor de grafos. Provoca vazamento de memï¿½ria
 *     =criargrafo                   inxGrafo
 *     =destruirgrafo                inxGrafo
 *     =esvaziargrafo                inxGrafo
@@ -138,7 +138,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            
+
                  GRA_CriarGrafo(&vtGrafos[ inxGrafo ], DestruirValor ) ;
 				 //epgrafo retornado por ref
 
@@ -274,7 +274,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
             return TST_CompararInt( CondRetEsp ,
                       GRA_ExcluirElemento( vtGrafos[ inxGrafo ] ) ,
-                     "Condição de retorno errada ao excluir."   ) ;
+                     "Condiï¿½ï¿½o de retorno errada ao excluir."   ) ;
 
          } /* fim ativa: Testar excluir simbolo */
 
@@ -297,7 +297,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             if ( ValEsp == 0 )
             {
                return TST_CompararPonteiroNulo( 0 , pDado ,
-                         "Valor não deveria existir." ) ;
+                         "Valor nï¿½o deveria existir." ) ;
             } /* if */
 
             if ( pDado == NULL )
@@ -349,7 +349,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
          } /* fim ativa: GRA  &Ir para o elemento final */
 
-      /* GRA  &Avançar elemento */
+      /* GRA  &Avanï¿½ar elemento */
 
          else if ( strcmp( ComandoTeste , AVANCAR_ELEM_CMD ) == 0 )
          {
@@ -367,19 +367,19 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                       GRA_AvancarElementoCorrente( vtGrafos[ inxGrafo ] , numElem ) ,
                       "Condicao de retorno errada ao avancar" ) ;
 
-         } /* fim ativa: GRA  &Avançar elemento */
+         } /* fim ativa: GRA  &Avanï¿½ar elemento */
 
       return TST_CondRetNaoConhec ;
 
-   } /* Fim função: TGRA &Testar grafo */
+   } /* Fim funï¿½ï¿½o: TGRA &Testar grafo */
 
 
-/*****  Código das funções encapsuladas no módulo  *****/
+/*****  Cï¿½digo das funï¿½ï¿½es encapsuladas no mï¿½dulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TGRA -Destruir valor
+*  $FC Funï¿½ï¿½o: TGRA -Destruir valor
 *
 ***********************************************************************/
 
@@ -388,12 +388,12 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
       free( pValor ) ;
 
-   } /* Fim função: TGRA -Destruir valor */
+   } /* Fim funï¿½ï¿½o: TGRA -Destruir valor */
 
 
 /***********************************************************************
 *
-*  $FC Função: TGRA -Validar indice de grafo
+*  $FC Funï¿½ï¿½o: TGRA -Validar indice de grafo
 *
 ***********************************************************************/
 
@@ -405,7 +405,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
       {
          return FALSE ;
       } /* if */
-         
+
       if ( Modo == VAZIO )
       {
          if ( vtGrafos[ inxGrafo ] != 0 )
@@ -419,10 +419,9 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             return FALSE ;
          } /* if */
       } /* if */
-         
+
       return TRUE ;
 
-   } /* Fim função: TGRA -Validar indice de grafo */
+   } /* Fim funï¿½ï¿½o: TGRA -Validar indice de grafo */
 
-/********** Fim do módulo de implementação: TGRA Teste grafo de símbolos **********/
-
+/********** Fim do mï¿½dulo de implementaï¿½ï¿½o: TGRA Teste grafo de sï¿½mbolos **********/
