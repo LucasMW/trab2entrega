@@ -36,7 +36,7 @@ typedef enum {
 *    
 *
 ***********************************************************************/
-GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo);
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo, int max_nodes);
 
 /***********************************************************************
 *
