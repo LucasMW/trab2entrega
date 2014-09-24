@@ -1,19 +1,19 @@
 /***************************************************************************
-*  $MCI MÛdulo de implementaÁ„o: GRA  Grafo GenÈrico (implementado por listas)
+*  $MCI M√≥dulo de implementa√ß√£o: GRA  Grafo Gen√©rico (implementado por listas)
 *
 *  Arquivo gerado:              grafo.c
 *  Letras identificadoras:      GRA
 *
-*  Nome da base de software:    ArcabouÁo para a automaÁ„o de testes de programas redigidos em C
+*  Nome da base de software:    Arcabou√ßo para a automa√ß√£o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 AutomatizaÁ„o dos testes de mÛdulos C
+*  Projeto: INF 1301 / 1628 Automatiza√ß√£o dos testes de m√≥dulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o  Autor    Data     ObservaÁıes
-*     1       LM   22/SET/2014 inÌcio desenvolvimento
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o  Autor    Data     Observa√ß√µes
+*     1       LM   22/SET/2014 in√≠cio desenvolvimento
 
 ***************************************************************************/
 #include <stdio.h>
@@ -47,7 +47,7 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor da cabeÁa de grafo
+*  $TC Tipo de dados: GRA Descritor da cabe√ßa de grafo
 *
 *
 ***********************************************************************/
@@ -55,19 +55,19 @@
    typedef struct GRA_tagGrafo {
 
          LIS_tppLista  pOrigens ;
-               /* Ponteiro para a cabeÁa da lista de origens*/
+               /* Ponteiro para a cabe√ßa da lista de origens*/
 
          LIS_tppLista  pVertices ;
-               /* Ponteiro para a cabeÁa da lista de vÈrtices*/
+               /* Ponteiro para a cabe√ßa da lista de v√©rtices*/
 
          tpElemLista  pElemCorr ;
-               /* Ponteiro para o elemento corrente das operaÁıes*/
+               /* Ponteiro para o elemento corrente das opera√ß√µes*/
 
          int numElem ;
-               /* N˙mero de elementos da lista */
+               /* N√∫mero de elementos da lista */
 
          void ( * ExcluirValor ) ( void * pValor ) ;
-               /* Ponteiro para a funÁ„o de destruiÁ„o do valor contido em um elemento */
+               /* Ponteiro para a fun√ß√£o de destrui√ß√£o do valor contido em um elemento */
 
    } GRA_tpGrafo ;
 
@@ -82,7 +82,8 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo ,int max_nodes )
 		return GRA_CondRetFaltouMemoria;
 	if(LIS_CriarLista(&tempgraf->pVertices,free)!=LIS_CondRetOK)
 		return GRA_CondRetFaltouMemoria;
-	/* N„o houve problemas , retorne OK */
+	grafo = &tempgraf;
+	/* N√£o houve problemas , retorne OK */
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo* grafo )
@@ -93,7 +94,7 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo* grafo )
 }
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo* grafo, void * pInfo)
 {
-	/* Todo nÛ adicionado, como n„o tem aresta È uma nova componente conexa */
+	/* Todo n√≥ adicionado, como n√£o tem aresta √© uma nova componente conexa */
 
 	
 	return GRA_CondRetOK;
