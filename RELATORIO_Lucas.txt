@@ -1,10 +1,11 @@
-Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
+﻿Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 
 09/SET/2014; 1h; Projetar; Rascunhei diretórios e os requisitos
 13/SET/2014; 3h; Projetar; Projetei a organização dos diretórios
 20/SET/2014; 1h; Projetar; Projetamos juntos os requisitos da aplicação
 20/SET/2014; 1h; especificar os módulos; Especificamos que os módulos a apresentar serão grafo e lista, e esboçamos o diagrama da arquitetura.
 20/SET/2014; 1h; especificar as funções; Especificamos as funções do módulo grafo
-20/SET/2014; 0.5h Revisar projetos; Revisamos a organização dos diretórios e criamos convenções de nomes 
-22/SET/2014; 0.5h revisar especificações; Revisei algumas especificações do módulo lista
-22/SET/2014; 0.5h codificar módulo; Comecei a codificar o módulo grafo
+20/SET/2014; 0.5h; Revisar projetos; Revisamos a organização dos diretórios e criamos convenções de nomes 
+22/SET/2014; 0.5h; revisar especificações; Revisei algumas especificações do módulo lista
+22/SET/2014; 0.5h; codificar módulo; Comecei a codificar o m; ódulo grafo
+23/SET/2014; 2H;  codificar módulo; Codifiquei as função GRA_CriarGrafo e alterei algumas coisas no TESTGRA.c
