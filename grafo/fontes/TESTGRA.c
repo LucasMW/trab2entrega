@@ -130,21 +130,21 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
          else if ( strcmp( ComandoTeste , CRIAR_GRAFO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "i" ,
-                       &inxGrafo ) ;
+            numLidos = LER_LerParametros( "ii" ,
+                       &inxGrafo, &CondRetEsperada ) ;
 
-            if ( ( numLidos != 1 )
+            if ( ( numLidos != 2 )
               || ( ! ValidarInxGrafo( inxGrafo , VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
 
-                 GRA_CriarGrafo(&VTGRAFO[ inxGrafo ]) ;
+                 CondRetEsperada = GRA_CriarGrafo(&VTGRAFO[ inxGrafo ], 10) ;
 				 //epgrafo retornado por ref
 
-            return TST_CompararPonteiroNulo( 1 , VTGRAFO[ inxGrafo ] ,
-               "Erro em ponteiro de nova grafo."  ) ;
+            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao criar grafo." );
 
          } /* fim ativa: Testar CriarGrafo */
 
