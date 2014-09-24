@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI M�dulo de implementa��o: TGRA Teste grafo gen�rico
+*  $MCI Módulo de implementação: TGRA Teste grafo gen�rico
 *
 *  Arquivo gerado:              TestGRA.c
 *  Letras identificadoras:      TGRA
@@ -7,12 +7,12 @@
 *  Nome da base de software:    Arcabou�o para a automa��o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\Grafo.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatiza��o dos testes de m�dulos C
+*  Projeto: INF 1301 / 1628 Automatiza��o dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
 *
-*  $HA Hist�rico de evolu��o:
-*     Vers�o  Autor    Data     Observa��es
+*  $HA Histórico de evolução:
+*     Versão  Autor    Data     Observa��es
 *     1       LM    22/SET/2014 in�cio desenvolvimento
 *
 ***************************************************************************/
@@ -55,33 +55,34 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 
 GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
-/***** Prot�tipos das fun��es encapuladas no m�dulo *****/
+/***** Protótipos das funções encapuladas no módulo *****/
 
    static void DestruirValor( void * pValor ) ;
 
    static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
-/*****  C�digo das fun��es exportadas pelo m�dulo  *****/
+/*****  Código das funções exportadas pelo módulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Fun��o: TGRA &Testar grafo
+*  $FC Função: TGRA &Testar grafo
 *
-*  $ED Descri��o da fun��o
-*     Podem ser criadas at� 10 grafos, identificadas pelos �ndices 0 a 10
+*  $ED Descrição da função
+*     Podem ser criadas até 10 grafos, identificadas pelos índices 0 a 10
 *
-*     Comandos dispon�veis:
+*     Comandos disponíveis:
 *
 *     =resetteste
 *           - anula o vetor de grafos. Provoca vazamento de mem�ria
 *     =criargrafo                   inxGrafo
 *     =destruirgrafo                inxGrafo
 *     =esvaziargrafo                inxGrafo
-*     =inselemantes                 inxGrafo  string  CondRetEsp
-*     =inselemapos                  inxGrafo  string  CondRetEsp
-*     =obtervalorelem               inxGrafo  string  CondretPonteiro
-*     =excluirelem                  inxGrafo  CondRetEsp
+*     =inserirno               inxGrafo  string  CondRetEsp
+*     =inseriraresta                  inxGrafo  string  CondRetEsp
+*     =obtervalorno              inxGrafo  string  CondretPonteiro
+*     =excluirno					inxGrafo  CondRetEsp
+*	  =excluirno					inxGrafo  CondRetEsp
 *     =irinicio                     inxGrafo
 *     =irfinal                      inxGrafo
 *     =avancarelem                  inxGrafo  numElem CondRetEsp

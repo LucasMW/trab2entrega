@@ -17,6 +17,7 @@
 
 ***************************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 
@@ -56,10 +57,10 @@
          LIS_tppLista  pOrigens ;
                /* Ponteiro para a cabeça da lista de origens*/
 
-         LIS_tppLista * pVertices ;
+         LIS_tppLista  pVertices ;
                /* Ponteiro para a cabeça da lista de vértices*/
 
-         tpElemLista * pElemCorr ;
+         tpElemLista  pElemCorr ;
                /* Ponteiro para o elemento corrente das operações*/
 
          int numElem ;
@@ -73,10 +74,20 @@
 
 GRA_tpCondRet GRA_Cria( GRA_tppGrafo* grafo ,int max_nodes )
 {
+	GRA_tpGrafo* tempgraf;
+	tempgraf=(GRA_tpGrafo*)malloc(sizeof(GRA_tpGrafo));
+	if(!tempgraf)
+		return  GRA_CondRetFaltouMemoria;
+	if(LIS_CriarLista(&tempgraf->pOrigens,free)!=LIS_CondRetOK)
+		return GRA_CondRetFaltouMemoria;
+	if(LIS_CriarLista(&tempgraf->pVertices,free)!=LIS_CondRetOK)
+		return GRA_CondRetFaltouMemoria;
+	/* Não houve problemas , retorne OK */
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet   GRA_InsereNo ( GRA_tppGrafo* grafo, void * pInfo)
 {
+
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet  GRA_InsereAresta( GRA_tppGrafo* grafo, int node_i, int node_j, float cost, char direction)

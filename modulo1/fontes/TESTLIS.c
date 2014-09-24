@@ -91,6 +91,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
+	   LIS_tppLista epLista=NULL;
+
 
       int inxLista  = -1 ,
           numLidos   = -1 ,
@@ -137,8 +139,9 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            vtListas[ inxLista ] =
-                 LIS_CriarLista( DestruirValor ) ;
+            
+                 LIS_CriarLista(&vtListas[ inxLista ], DestruirValor ) ;
+				 //eplista retornado por ref
 
             return TST_CompararPonteiroNulo( 1 , vtListas[ inxLista ] ,
                "Erro em ponteiro de nova lista."  ) ;
@@ -322,7 +325,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            IrInicioLista( vtListas[ inxLista ] ) ;
+            LIS_IrInicioLista( vtListas[ inxLista ] ) ;
 
             return TST_CondRetOK ;
 
@@ -341,7 +344,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            IrFinalLista( vtListas[ inxLista ] ) ;
+            LIS_IrFinalLista( vtListas[ inxLista ] ) ;
 
             return TST_CondRetOK ;
 
