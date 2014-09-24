@@ -53,7 +53,7 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 #define DIM_VT_GRAFO   10
 #define DIM_VALOR     100
 
-GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
+GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
@@ -106,7 +106,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
       int ValEsp = -1 ;
 
       int i ;
-
+	  int j;
       int numElem = -1 ;
 
       StringDado[ 0 ] = 0 ;
@@ -118,7 +118,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
             for( i = 0 ; i < DIM_VT_GRAFO ; i++ )
             {
-               vtGrafos[ i ] = NULL ;
+               VTGRAFO[ i ] = NULL ;
             } /* for */
 
             return TST_CondRetOK ;
@@ -140,10 +140,10 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             } /* if */
 
 
-                 GRA_CriarGrafo(&vtGrafos[ inxGrafo ], DestruirValor ) ;
+                 GRA_CriarGrafo(&VTGRAFO[ inxGrafo ]) ;
 				 //epgrafo retornado por ref
 
-            return TST_CompararPonteiroNulo( 1 , vtGrafos[ inxGrafo ] ,
+            return TST_CompararPonteiroNulo( 1 , VTGRAFO[ inxGrafo ] ,
                "Erro em ponteiro de nova grafo."  ) ;
 
          } /* fim ativa: Testar CriarGrafo */
@@ -162,7 +162,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_EsvaziarGrafo( vtGrafos[ inxGrafo ] ) ;
+            GRA_EsvaziarGrafo( &VTGRAFO[ inxGrafo ] ) ;
 
             return TST_CondRetOK ;
 
@@ -182,8 +182,8 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_DestruirGrafo( vtGrafos[ inxGrafo ] ) ;
-            vtGrafos[ inxGrafo ] = NULL ;
+            GRA_DestruirGrafo( &VTGRAFO[ inxGrafo ] ) ;
+            VTGRAFO[ inxGrafo ] = NULL ;
 
             return TST_CondRetOK ;
 
@@ -191,19 +191,19 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
       /* Testar inserir elemento antes */
 
-         else if ( strcmp( ComandoTeste , INS_ELEM_ANTES_CMD ) == 0 )
+         else if ( strcmp( ComandoTeste , INSERIR_NO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxGrafo , StringDado , &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "iiii" ,
+                       &inxGrafo , &i,&j , &CondRetEsp ) ;
 
-            if ( ( numLidos != 3 )
+            if ( ( numLidos != 4 )
               || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
+           
             if ( pDado == NULL )
             {
                return TST_CondRetMemoria ;
@@ -212,7 +212,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             strcpy( pDado , StringDado ) ;
 
 
-            CondRet = GRA_InserirElementoAntes( vtGrafos[ inxGrafo ] , pDado ) ;
+            CondRet =(TST_tpCondRet) GRA_InserirAresta( &VTGRAFO[ inxGrafo ] , i,j,0,0 ) ;
 
             if ( CondRet != GRA_CondRetOK )
             {
@@ -247,7 +247,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             strcpy( pDado , StringDado ) ;
 
 
-            CondRet = GRA_InserirElementoApos( vtGrafos[ inxGrafo ] , pDado ) ;
+            CondRet = GRA_InserirElementoApos( VTGRAFO[ inxGrafo ] , pDado ) ;
 
             if ( CondRet != GRA_CondRetOK )
             {
@@ -274,7 +274,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             } /* if */
 
             return TST_CompararInt( CondRetEsp ,
-                      GRA_ExcluirElemento( vtGrafos[ inxGrafo ] ) ,
+                      GRA_ExcluirElemento( VTGRAFO[ inxGrafo ] ) ,
                      "Condi��o de retorno errada ao excluir."   ) ;
 
          } /* fim ativa: Testar excluir simbolo */
@@ -293,7 +293,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) GRA_ObterValor( vtGrafos[ inxGrafo ] ) ;
+            pDado = ( char * ) GRA_ObterValor( VTGRAFO[ inxGrafo ] ) ;
 
             if ( ValEsp == 0 )
             {
@@ -325,7 +325,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_IrInicioGrafo( vtGrafos[ inxGrafo ] ) ;
+            GRA_IrInicioGrafo( VTGRAFO[ inxGrafo ] ) ;
 
             return TST_CondRetOK ;
 
@@ -344,7 +344,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_IrFinalGrafo( vtGrafos[ inxGrafo ] ) ;
+            GRA_IrFinalGrafo( VTGRAFO[ inxGrafo ] ) ;
 
             return TST_CondRetOK ;
 
@@ -365,7 +365,7 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
             } /* if */
 
             return TST_CompararInt( CondRetEsp ,
-                      GRA_AvancarElementoCorrente( vtGrafos[ inxGrafo ] , numElem ) ,
+                      GRA_AvancarElementoCorrente( VTGRAFO[ inxGrafo ] , numElem ) ,
                       "Condicao de retorno errada ao avancar" ) ;
 
          } /* fim ativa: GRA  &Avan�ar elemento */
@@ -409,13 +409,13 @@ GRA_tppGrafo   vtGrafos[ DIM_VT_GRAFO ] ;
 
       if ( Modo == VAZIO )
       {
-         if ( vtGrafos[ inxGrafo ] != 0 )
+         if ( VTGRAFO[ inxGrafo ] != 0 )
          {
             return FALSE ;
          } /* if */
       } else
       {
-         if ( vtGrafos[ inxGrafo ] == 0 )
+         if ( VTGRAFO[ inxGrafo ] == 0 )
          {
             return FALSE ;
          } /* if */

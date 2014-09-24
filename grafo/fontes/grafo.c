@@ -72,7 +72,7 @@
    } GRA_tpGrafo ;
 
 
-GRA_tpCondRet GRA_Cria( GRA_tppGrafo* grafo ,int max_nodes )
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo ,int max_nodes )
 {
 	GRA_tpGrafo* tempgraf;
 	tempgraf=(GRA_tpGrafo*)malloc(sizeof(GRA_tpGrafo));
@@ -85,16 +85,24 @@ GRA_tpCondRet GRA_Cria( GRA_tppGrafo* grafo ,int max_nodes )
 	/* Não houve problemas , retorne OK */
 	return GRA_CondRetOK;
 }
-GRA_tpCondRet   GRA_InsereNo ( GRA_tppGrafo* grafo, void * pInfo)
+GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo* grafo )
 {
+	free(*grafo);
+	grafo=NULL; //never be acessed again
+	return GRA_CondRetOK;
+}
+GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo* grafo, void * pInfo)
+{
+	/* Todo nó adicionado, como não tem aresta é uma nova componente conexa */
 
+	
 	return GRA_CondRetOK;
 }
-GRA_tpCondRet  GRA_InsereAresta( GRA_tppGrafo* grafo, int node_i, int node_j, float cost, char direction)
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo* grafo, int node_i, int node_j, float cost, char direction)
 {
 	return GRA_CondRetOK;
 }
-GRA_tpCondRet  GRA_Imprime(GRA_tppGrafo* graph)
+GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo* graph)
 {
 	return GRA_CondRetOK;
 }

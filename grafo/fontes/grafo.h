@@ -60,12 +60,12 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo);
 ***********************************************************************/
 
 
-GRA_tpCondRet GRA_Destroi( GRA_tppGrafo* grafo );
+GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo* grafo );
 
 
 GRA_tpCondRet   GRA_InsereNo ( GRA_tppGrafo* grafo, void * pInfo);
 GRA_tpCondRet   GRA_ExcluiNo ( GRA_tppGrafo* grafo, int no);
-GRA_tpCondRet  GRA_InsereAresta( GRA_tppGrafo* grafo, int no_i, int no_j, float cost, char direction);
-GRA_tpCondRet  GRA_ExcluiAresta (GRA_tppGrafo* grafo, int no_i, int no_j);
-GRA_tpCondRet GRA_Esvazia( GRA_tppGrafo* grafo );
-GRA_tpCondRet  GRA_Imprime(GRA_tppGrafo* graph);
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo* grafo, int no_i, int no_j, float cost, char direction);
+GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo* grafo, int no_i, int no_j);
+GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo* grafo );
+GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo* graph);
