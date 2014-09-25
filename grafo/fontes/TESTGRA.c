@@ -130,21 +130,21 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
          else if ( strcmp( ComandoTeste , CRIAR_GRAFO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "ii" ,
-                       &inxGrafo, &CondRetEsperada ) ;
+            numLidos = LER_LerParametros( "i" ,
+                       &inxGrafo ) ;
 
-            if ( ( numLidos != 2 )
+            if ( ( numLidos != 1 )
               || ( ! ValidarInxGrafo( inxGrafo , VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
 
-                 CondRetEsperada = GRA_CriarGrafo(&VTGRAFO[ inxGrafo ], 10) ;
+                 GRA_CriarGrafo(&VTGRAFO[ inxGrafo ]) ;
 				 //epgrafo retornado por ref
 
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar grafo." );
+            return TST_CompararPonteiroNulo( 1 , VTGRAFO[ inxGrafo ] ,
+               "Erro em ponteiro de nova grafo."  ) ;
 
          } /* fim ativa: Testar CriarGrafo */
 
@@ -226,149 +226,11 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
       /* Testar inserir elemento apos */
 
-         else if ( strcmp( ComandoTeste , INS_ELEM_APOS_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxGrafo , StringDado , &CondRetEsp ) ;
-
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
-            if ( pDado == NULL )
-            {
-               return TST_CondRetMemoria ;
-            } /* if */
-
-            strcpy( pDado , StringDado ) ;
-
-
-            CondRet = GRA_InserirElementoApos( VTGRAFO[ inxGrafo ] , pDado ) ;
-
-            if ( CondRet != GRA_CondRetOK )
-            {
-               free( pDado ) ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
-                     "Condicao de retorno errada ao inserir apos."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento apos */
+         /* fim ativa: Testar inserir elemento apos */
 
       /* Testar excluir simbolo */
 
-         else if ( strcmp( ComandoTeste , EXC_ELEM_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" ,
-                  &inxGrafo , &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp ,
-                      GRA_ExcluirElemento( VTGRAFO[ inxGrafo ] ) ,
-                     "Condi��o de retorno errada ao excluir."   ) ;
-
-         } /* fim ativa: Testar excluir simbolo */
-
-      /* Testar obter valor do elemento corrente */
-
-         else if ( strcmp( ComandoTeste , OBTER_VALOR_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxGrafo , StringDado , &ValEsp ) ;
-
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            pDado = ( char * ) GRA_ObterValor( VTGRAFO[ inxGrafo ] ) ;
-
-            if ( ValEsp == 0 )
-            {
-               return TST_CompararPonteiroNulo( 0 , pDado ,
-                         "Valor n�o deveria existir." ) ;
-            } /* if */
-
-            if ( pDado == NULL )
-            {
-               return TST_CompararPonteiroNulo( 1 , pDado ,
-                         "Dado tipo um deveria existir." ) ;
-            } /* if */
-
-            return TST_CompararString( StringDado , pDado ,
-                         "Valor do elemento errado." ) ;
-
-         } /* fim ativa: Testar obter valor do elemento corrente */
-
-      /* Testar ir para o elemento inicial */
-
-         else if ( strcmp( ComandoTeste , IR_INICIO_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "i" , &inxGrafo ) ;
-
-            if ( ( numLidos != 1 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            GRA_IrInicioGrafo( VTGRAFO[ inxGrafo ] ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Testar ir para o elemento inicial */
-
-      /* GRA  &Ir para o elemento final */
-
-         else if ( strcmp( ComandoTeste , IR_FIM_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "i" , &inxGrafo ) ;
-
-            if ( ( numLidos != 1 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            GRA_IrFinalGrafo( VTGRAFO[ inxGrafo ] ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: GRA  &Ir para o elemento final */
-
-      /* GRA  &Avan�ar elemento */
-
-         else if ( strcmp( ComandoTeste , AVANCAR_ELEM_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "iii" , &inxGrafo , &numElem ,
-                                &CondRetEsp ) ;
-
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp ,
-                      GRA_AvancarElementoCorrente( VTGRAFO[ inxGrafo ] , numElem ) ,
-                      "Condicao de retorno errada ao avancar" ) ;
-
-         } /* fim ativa: GRA  &Avan�ar elemento */
+          /* fim ativa: GRA  &Avan�ar elemento */
 
       return TST_CondRetNaoConhec ;
 
