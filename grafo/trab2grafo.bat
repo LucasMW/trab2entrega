@@ -1,1 +1,1 @@
-grafo.exe /stestegrafo.script > loggrafo.txt
+trab2grafo.exe /stestegrafo.script > loggrafo.txt

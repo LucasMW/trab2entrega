@@ -1,19 +1,19 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TGRA Teste grafo gen�rico
+*  $MCI Módulo de implementação: TGRA Teste grafo genérico
 *
 *  Arquivo gerado:              TestGRA.c
 *  Letras identificadoras:      TGRA
 *
-*  Nome da base de software:    Arcabou�o para a automa��o de testes de programas redigidos em C
+*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\Grafo.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatiza��o dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observa��es
-*     1       LM    22/SET/2014 in�cio desenvolvimento
+*     Versão  Autor    Data     Observações
+*     1       LM    22/SET/2014 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -75,7 +75,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 *
 *     =resetteste
 *           - anula o vetor de grafos. Provoca vazamento de mem�ria
-*     =criargrafo                   inxGrafo
+*     =criargrafo                   inxGrafo    CondRetEsp
 *     =destruirgrafo                inxGrafo
 *     =esvaziargrafo                inxGrafo
 *     =inserirno               inxGrafo  string  CondRetEsp
