@@ -1,0 +1,21 @@
+== declarações
+
+=declararparm   grafo1  int 1
+=declararparm   grafo2  int 2
+=declararparm   grafo3  int 3
+=declararparm   grafo4  int 4
+=declararparm   grafo5  int 5
+=declararparm   grafo6  int 6
+=declararparm   grafo7  int 7
+=declararparm   grafo8  int 8
+
+==criar grafo1
+
+=criargrafo grafo1
+=criargrafo grafo2
+=criargrafo grafo3
+=criargrafo grafo4
+=criargrafo grafo5
+
+==recriar grafo1
+=criargrafo grafo1
