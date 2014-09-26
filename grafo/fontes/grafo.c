@@ -57,9 +57,23 @@
 			/* Ponteiro para a Lista de Adjacências de cada vértice */
    };
    typedef struct GRA_verticeGrafo* GRA_noGrafo;
+static int IdExisteJa(GRA_tppGrafo grafo,int id)
+{	GRA_noGrafo p;
+	LIS_IrInicioLista(grafo->pVertices);
+	p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+	if(p->verticeId==id)
+		return 1; // EXISTE
+	while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetListaVazia)
+	{
+		p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(p->verticeId==id)
+			return 1;
 
 
-GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo ,int max_nodes )
+	}
+	return 0;
+}
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 {
 	GRA_tpGrafo* tempgraf;
 	tempgraf=(GRA_tpGrafo*)malloc(sizeof(GRA_tpGrafo));
@@ -84,18 +98,30 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo )
 	grafo=NULL; //never be acessed again
 	return GRA_CondRetOK;
 }
+
+
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
 {
 	/* Todo nó adicionado, como não tem aresta é uma nova componente conexa */
+	GRA_noGrafo novoNo;
 	
-
-	GRA_noGrafo novoNo=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo)); //cria nó
-	LIS_IrInicioLista(grafo->pVertices);
-
-	while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
-		
-	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova coisa na lista de nós
-
+	int id=1; //ids começam em 1
+		if(LIS_IrFinalLista(grafo->pVertices)!=LIS_CondRetListaVazia)
+		{	
+			while(IdExisteJa,id)
+				id++;    //Garantirá que id sera sempre diferente
+		}
+		else
+			id=1; //ids começam em 1
+    novoNo=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo)); //cria nó
+	if(!novoNo)
+		return GRA_CondRetFaltouMemoria;
+	novoNo->verticeId=id;
+	novoNo->pInfo=pInfo;
+	if(LIS_CriarLista(&novoNo->listaArestas,free)==LIS_CondRetFaltouMemoria)
+		return GRA_CondRetFaltouMemoria;
+	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova elementolista na lista de nós representando esse vértice
+	LIS_InserirElementoApos(grafo->pOrigens,novoNo); //Linka a componenteconexa ao novo nó sem arestas
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, float cost, char direction)
