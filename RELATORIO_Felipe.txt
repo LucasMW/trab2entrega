@@ -1,6 +1,8 @@
-Data ; Horas Trabalhadas ; Tipo Tarefa ; Descri��o da Tarefa Realizada
+Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 
 09/SET/2014; 1h; Projetar; Rascunho dos requisitos
-20/SET/2014; 1h; Projetar; Projetamos juntos os requisitos da aplica��o
-20/SET/2014; 1h; especificar os m�dulos; Especificamos que os m�dulos a apresentar ser�o grafo e lista, e esbo�amos o diagrama da arquitetura.
-20/SET/2014; 0.5h Revisar projetos; Revisamos a organiza��o dos diret�rios e criamos conven��es de nomes 	
+20/SET/2014; 1h; Projetar; Projetamos juntos os requisitos da aplicação
+20/SET/2014; 1h; especificar os módulos; Especificamos que os módulos a apresentar serão grafo e lista, e esboçamos o diagrama da arquitetura.
+20/SET/2014; 0.5h Revisar projetos; Revisamos a organização dos diretórios e criamos convenções de nomes 	
+21/SET/2014; 2h; Revisar projetos; Criação do Diagrama de Arquitetura dos módulos do programa.
+26/SET/2014; 2h; Revisar projetos; Criação do Modelo físico dos elementos que constituem o módulo grafo.
