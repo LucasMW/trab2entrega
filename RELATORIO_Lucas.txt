@@ -9,3 +9,5 @@
 22/SET/2014; 0.5h; revisar especificações; Revisei algumas especificações do módulo lista
 22/SET/2014; 0.5h; codificar módulo; Comecei a codificar o m; ódulo grafo
 23/SET/2014; 2H;  codificar módulo; Codifiquei as função GRA_CriarGrafo e alterei algumas coisas no TESTGRA.c
+26/SET/2014; 2H;  revisar projetos; Projetei o Modelo lógico e capturei mudanças em estruturas
+26/SET/2014; 1h;  revisar especificações; Mudei as especificações da InserirNo, concluí que ela deve retornar o id do no por ref
