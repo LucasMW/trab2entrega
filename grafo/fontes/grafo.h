@@ -36,7 +36,7 @@ typedef enum {
 *    
 *
 ***********************************************************************/
-GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo);
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* Refgrafo);
 
 /***********************************************************************
 *
@@ -51,21 +51,35 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* grafo);
 *  $FV Valor retornado
 *     Se executou corretamente retorna por referência o ponteiro para o grafo e retornará
 *	  a GRA_CondRetOK
-*     
-*
-*     Se ocorreu alguma alocação de memória não conseguir ser realizada
-*     a função retornará GRA_CondRetFaltouMemoria.
+*     Se ocorreu que alguma alocação de memória não pôde ser realizada,
+*	  a função retornará GRA_CondRetFaltouMemoria.
 *    
 *
 ***********************************************************************/
 
 
-GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo* grafo );
+GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 
-
-GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo* grafo, void * pInfo);
-GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo* grafo, int no);
-GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo* grafo, int no_i, int no_j, float cost, char direction);
-GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo* grafo, int no_i, int no_j);
-GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo* grafo );
-GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo* graph);
+/***********************************************************************
+*
+*  $FC Função: GRA  &Insrerir Nó
+*
+*  $ED Descrição da função
+*     
+*
+*  $EP Parâmetros
+*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
+*	  pInfo			- endereço a informação a ser armazenada no grafo
+*	  pNoId			- endereço da variável que receberá o id do grafo criado, retornado por referência
+*  $FV Valor retornado
+*     Se executou corretamente retornará GRA_CondRetOK
+*     Se Faltou memória em qualquer parte do processo, retornará GRA_CondRetFaltouMemoria
+*
+*     
+***********************************************************************/
+GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
+GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int noId);
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id, float cost, char direction);
+GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
+GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
+GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);

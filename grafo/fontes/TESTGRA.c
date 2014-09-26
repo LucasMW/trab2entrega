@@ -162,7 +162,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_EsvaziarGrafo( &VTGRAFO[ inxGrafo ] ) ;
+            GRA_EsvaziarGrafo( VTGRAFO[ inxGrafo ] ) ;
 
             return TST_CondRetOK ;
 
