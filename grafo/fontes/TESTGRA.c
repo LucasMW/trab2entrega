@@ -38,6 +38,7 @@ static const char INSERIR_ARESTA_CMD       [ ] = "=inseriraresta"    ;
 static const char OBTER_VALOR_CMD         [ ] = "=obtervalorno" ;
 static const char EXC_NO_CMD            [ ] = "=excluirno"    ;
 static const char EXC_ARESTA_CMD            [ ] = "=excluiraresta"    ;
+static const char IMPRIMIR_GRAFO_CMD            [ ] = "=imprimirgrafo"    ;
 /* Por hora ainda n�o entendo o resto*/
 static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
 static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
@@ -78,9 +79,9 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 *     =criargrafo                   inxGrafo    CondRetEsp
 *     =destruirgrafo                inxGrafo
 *     =esvaziargrafo                inxGrafo
-*     =inserirno               inxGrafo  string  CondRetEsp
-*     =inseriraresta                  inxGrafo  string  CondRetEsp
-*     =obtervalorno              inxGrafo  string  CondretPonteiro
+*     =inserirno					inxGrafo  string  intPonteiro CondRetEsp
+*     =inseriraresta                inxGrafo  string  CondRetEsp
+*     =obtervalorno					inxGrafo  string  CondretPonteiro
 *     =excluirno					inxGrafo  CondRetEsp
 *	  =excluirno					inxGrafo  CondRetEsp
 *     =irinicio                     inxGrafo
@@ -107,6 +108,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
       int i ;
 	  int j;
+	  int* intpointer;
       int numElem = -1 ;
 
       StringDado[ 0 ] = 0 ;
@@ -182,7 +184,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            GRA_DestruirGrafo( &VTGRAFO[ inxGrafo ] ) ;
+           CondRet=(TST_tpCondRet)GRA_DestruirGrafo( VTGRAFO[ inxGrafo ] ) ;
             VTGRAFO[ inxGrafo ] = NULL ;
 
             return TST_CondRetOK ;
@@ -194,16 +196,15 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
          else if ( strcmp( ComandoTeste , INSERIR_NO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iiii" ,
-                       &inxGrafo , &i,&j , &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "isii" ,
+                       &inxGrafo , &StringDado,&i , &CondRetEsp ) ;
 
-            if ( ( numLidos != 4 )
-              || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            if ( ( numLidos != 4 )  || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
-
-           
+			intpointer=&i;
+           pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
             if ( pDado == NULL )
             {
                return TST_CondRetMemoria ;
@@ -211,20 +212,34 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
             strcpy( pDado , StringDado ) ;
 
-
-            CondRet =(TST_tpCondRet) GRA_InserirAresta( &VTGRAFO[ inxGrafo ] , i,j,0,0 ) ;
+			
+			printf("\t%d\n",i);
+            CondRet =(TST_tpCondRet) GRA_InserirNo( VTGRAFO[ inxGrafo ],&pDado,intpointer) ;
 
             if ( CondRet != GRA_CondRetOK )
             {
                free( pDado ) ;
-            } /* if */
+            } 
 
             return TST_CompararInt( CondRetEsp , CondRet ,
                      "Condicao de retorno errada ao inserir antes."                   ) ;
 
          } /* fim ativa: Testar inserir elemento antes */
 
-      /* Testar inserir elemento apos */
+		 else if (strcmp( ComandoTeste , IMPRIMIR_GRAFO_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "ii",&inxGrafo,&CondRetEsp) ;
+			  if ( ( numLidos != 2 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ImprimirGrafo( VTGRAFO[ inxGrafo ]) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n",CondRet);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "DEU RUIM");
+		 }
 
          /* fim ativa: Testar inserir elemento apos */
 

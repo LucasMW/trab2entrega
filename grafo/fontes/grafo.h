@@ -62,11 +62,12 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 
 /***********************************************************************
 *
-*  $FC Função: GRA  &Insrerir Nó
+*  $FC Função: GRA  &Inserir Nó
 *
 *  $ED Descrição da função
-*     
-*
+*     A função trata de inserir um novo nó no grafo, dando a ele um id único, pelo qual poderá ser 
+*     identificado e operado posteriormente. Também o associará a uma informação qualquer, passada
+*	  pelo parâmetro pInfo. Por definição um novo nó não tem arestas e é uma nova componente conexa.
 *  $EP Parâmetros
 *	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
 *	  pInfo			- endereço a informação a ser armazenada no grafo

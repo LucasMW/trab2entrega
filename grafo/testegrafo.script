@@ -1,4 +1,4 @@
-== declarações
+== declarar grafos
 
 =declararparm   grafo1  int 1
 =declararparm   grafo2  int 2
@@ -9,6 +9,22 @@
 =declararparm   grafo7  int 7
 =declararparm   grafo8  int 8
 
+==Declarar Ponteiros
+=declararparm   pNULL          int  0
+=declararparm   pNaoNULL       int  1
+
+==Declarar CondRets
+=declararparm   OK             	int  0
+=declararparm   FatouMemoria    int  1
+=declararparm   Vazio       	int  2
+
+
+==Declarar Strings
+=declararparm   str0    string  "abcdefg"
+=declararparm   str1    string  "qwerty"
+=declararparm   str2    string  "xxx"
+=declararparm   str3    string  "xpto"
+
 ==criar grafo1
 
 =criargrafo grafo1
@@ -17,3 +33,20 @@
 =criargrafo grafo4
 =criargrafo grafo5
 
+==Ezvaziar Grafo
+=esvaziargrafo grafo3
+
+==DestruirGrafo
+=destruirgrafo grafo3
+
+==Imprimir Grafo
+=imprimirgrafo grafo1 Vazio
+=imprimirgrafo grafo2 Vazio
+=imprimirgrafo grafo4 Vazio
+=imprimirgrafo grafo5 Vazio
+==InserirNo
+=inserirno grafo2 str2 OK
+=inserirno grafo1 str1 OK
+=inserirno grafo1 str1 2
+=inserirno grafo1 str1 3
+=inserirno grafo1 str1 OK
