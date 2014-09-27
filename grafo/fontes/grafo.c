@@ -1,19 +1,19 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: GRA  Grafo Genérico (implementado por listas)
+*  $MCI MÃ³dulo de implementaÃ§Ã£o: GRA  Grafo GenÃ©rico (implementado por listas)
 *
 *  Arquivo gerado:              grafo.c
 *  Letras identificadoras:      GRA
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
+*  Nome da base de software:    ArcabouÃ§o para a automaÃ§Ã£o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 AutomatizaÃ§Ã£o dos testes de mÃ³dulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Lucas Menezes (LM); Lorenzo Saraiva (LS); Felipe Santos(FS).
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       LM   22/SET/2014 início desenvolvimento
+*  $HA HistÃ³rico de evoluÃ§Ã£o:
+*     VersÃ£o  Autor    Data     ObservaÃ§Ãµes
+*     1       LM   22/SET/2014 inÃ­cio desenvolvimento
 
 ***************************************************************************/
 #include <stdio.h>
@@ -29,7 +29,7 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor da cabeça de grafo
+*  $TC Tipo de dados: GRA Descritor da cabeÃ§a de grafo
 *
 *
 ***********************************************************************/
@@ -37,24 +37,24 @@
    typedef struct GRA_tagGrafo {
 
          LIS_tppLista  pOrigens ;
-               /* Ponteiro para a cabeça da lista de origens*/
+               /* Ponteiro para a cabeÃ§a da lista de origens*/
 
          LIS_tppLista  pVertices ;
-               /* Ponteiro para a cabeça da lista de vértices*/
+               /* Ponteiro para a cabeÃ§a da lista de vÃ©rtices*/
 
          void ( * ExcluirValor ) ( void * pValor ) ;
-               /* Ponteiro para a função de destruição do valor contido em um elemento */
+               /* Ponteiro para a funÃ§Ã£o de destruiÃ§Ã£o do valor contido em um elemento */
 
    } GRA_tpGrafo ;
 
    struct GRA_verticeGrafo
    {
 	   int verticeId;
-			/* id único que identifica aquele vértice */
+			/* id Ãºnico que identifica aquele vÃ©rtice */
 	   void *pInfo;
-		   /* ponteiro para a Informação armazenada no vértice */
+		   /* ponteiro para a InformaÃ§Ã£o armazenada no vÃ©rtice */
 	   LIS_tppLista listaArestas;
-			/* Ponteiro para a Lista de Adjacências de cada vértice */
+			/* Ponteiro para a Lista de AdjacÃªncias de cada vÃ©rtice */
    };
    typedef struct GRA_verticeGrafo* GRA_noGrafo;
 static int IdExisteJa(GRA_tppGrafo grafo,int id)
@@ -73,6 +73,47 @@ static int IdExisteJa(GRA_tppGrafo grafo,int id)
 	}
 	return 0; //NAO EXISTE
 }
+int VerificaVisitados ( int * visitados, int qtdNos){
+
+	int i = 0;
+	for ( i; i<qtdNos; i++){
+		if (visitados[i] == 0)
+			return 0;
+	}
+	return 1;
+};
+
+void AtualizaConexos( GRA_tppGrafo grafo){
+
+	int visitados[1000], qtdNos = 0, i, flagVisitados;
+	GRA_noGrafo  noExterno,noInterno;
+
+	LIS_IrInicioLista(grafo->pVertices);
+
+	while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
+		qtdNos++;
+	for( i = 0; i < qtdNos ; i++)
+		visitados[i] = 0;
+	
+	while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista){
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+		
+		while(LIS_AvancarElementoCorrente( noExterno->listaArestas ,1 )!=LIS_CondRetFimLista){
+			noInterno = (GRA_noGrafo)LIS_ObterValor(noExterno->listaArestas);
+		visitados[noInterno->verticeId] = 1;
+	}
+	if (VerificaVisitados(visitados,qtdNos)){
+		flagVisitados = 1;
+		break;
+	}
+	}
+	
+	if (flagVisitados){
+		LIS_ProcurarValor( grafo->pOrigens , noExterno );
+		while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
+			LIS_ExcluirElemento( grafo->pVertices );
+	}
+}
 GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 {
 	GRA_tpGrafo* tempgraf;
@@ -83,7 +124,7 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 		return GRA_CondRetFaltouMemoria;
 	if(LIS_CriarLista(&tempgraf->pVertices,free)!=LIS_CondRetOK)
 		return GRA_CondRetFaltouMemoria;
-	/* Não houve problemas , retorne OK */
+	/* NÃ£o houve problemas , retorne OK */
 	*refgrafo=tempgraf; //return by reference
 	return GRA_CondRetOK;
 }
@@ -102,26 +143,26 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo )
 
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
 {
-	/* Todo nó adicionado, como não tem aresta é uma nova componente conexa */
+	/* Todo nÃ³ adicionado, como nÃ£o tem aresta Ã© uma nova componente conexa */
 	GRA_noGrafo novoNo;
 	
-	int id=1; //ids começam em 1
+	int id=1; //ids comeÃ§am em 1
 		if(LIS_IrFinalLista(grafo->pVertices)!=LIS_CondRetListaVazia)
 		{	
 			while(IdExisteJa,id)
-				id++;    //Garantirá que id sera sempre diferente
+				id++;    //GarantirÃ¡ que id sera sempre diferente
 		}
 		else
-			id=1; //ids começam em 1
-    novoNo=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo)); //cria nó
+			id=1; //ids comeÃ§am em 1
+    novoNo=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo)); //cria nÃ³
 	if(!novoNo)
 		return GRA_CondRetFaltouMemoria;
 	novoNo->verticeId=id;
 	novoNo->pInfo=pInfo;
 	if(LIS_CriarLista(&novoNo->listaArestas,free)==LIS_CondRetFaltouMemoria)
 		return GRA_CondRetFaltouMemoria;
-	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova elementolista na lista de nós representando esse vértice
-	LIS_InserirElementoApos(grafo->pOrigens,novoNo); //Linka a componenteconexa ao novo nó sem arestas
+	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova elementolista na lista de nÃ³s representando esse vÃ©rtice
+	LIS_InserirElementoApos(grafo->pOrigens,novoNo); //Linka a componenteconexa ao novo nÃ³ sem arestas
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, float cost, char direction)
@@ -130,7 +171,7 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, fl
 }
 GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 {
-	/* vá em cada vértice e imprima suas componentes conexas */
+	/* vÃ¡ em cada vÃ©rtice e imprima suas componentes conexas */
 	GRA_noGrafo p,acs; //percorredor
 	LIS_tppLista l; //percorredor
 	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
