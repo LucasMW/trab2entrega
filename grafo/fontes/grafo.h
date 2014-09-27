@@ -82,4 +82,22 @@ GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int noId);
 GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id, float cost, char direction);
 GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
 GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
+
+/***********************************************************************
+*
+*  $FC Função: GRA  &Imprimir Grafo
+*
+*  $ED Descrição da função
+*     Esta Função para cada vértice do grafo recebido exibirá seu id
+*	  e o conjunto dos ids dos vértices adjacentes a esse		
+*  $EP Parâmetros
+*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
+*	 
+*  $FV Valor retornado
+*     Se executou corretamente retornará GRA_CondRetOK
+*     
+*
+*     
+***********************************************************************/
 GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
+

@@ -12,3 +12,4 @@
 26/SET/2014; 2H;  revisar projetos; Projetei o Modelo lógico e capturei mudanças em estruturas
 26/SET/2014; 1h;  revisar especificações; Mudei as especificações da InserirNo, concluí que ela deve retornar o id do no por ref
 26/SET/2014; 4h; Codificar Módulo; Implementei um verificador de Ids, implementei a inserirNo, Implementei a estrutura de NoGrafo 
+27/SET/2014; 2H; Codificar Módulo; Implementei a imprimir grafo;

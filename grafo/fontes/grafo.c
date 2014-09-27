@@ -67,11 +67,11 @@ static int IdExisteJa(GRA_tppGrafo grafo,int id)
 	{
 		p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
 		if(p->verticeId==id)
-			return 1;
+			return 1; //EXISTE
 
 
 	}
-	return 0;
+	return 0; //NAO EXISTE
 }
 GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 {
@@ -128,8 +128,39 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, fl
 {
 	return GRA_CondRetOK;
 }
-GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo graph)
+GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 {
+	/* vá em cada vértice e imprima suas componentes conexas */
+	GRA_noGrafo p,acs; //percorredor
+	LIS_tppLista l; //percorredor
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return GRA_CondRetGrafoVazio;
+	do
+	{
+		p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		printf("Vertice %d Arestas: ",p->verticeId);
+		l=p->listaArestas;
+		if(LIS_IrInicioLista(l)!=LIS_CondRetListaVazia)
+		{
+			printf("{ ");
+			do 
+			{
+				acs=(GRA_noGrafo)LIS_ObterValor(l);
+				printf("%d ",acs->verticeId);
+			
+			}while(LIS_AvancarElementoCorrente(l,1)!=LIS_CondRetFimLista);
+			printf("}");
+		}
+		else
+			printf("NADA");
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+
+		
+	
+
+
+	
+
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo )
