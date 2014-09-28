@@ -196,14 +196,16 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
          else if ( strcmp( ComandoTeste , INSERIR_NO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isii" ,
-                       &inxGrafo , &StringDado,&i , &CondRetEsp ) ;
-
-            if ( ( numLidos != 4 )  || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            numLidos = LER_LerParametros( "isi" ,
+                       &inxGrafo , &StringDado, &CondRetEsp ) ;
+			
+            if ( ( numLidos != 3 )  || ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
-			intpointer=&i;
+			intpointer=(int*)malloc(sizeof(int));
+			if(!intpointer)
+				return TST_CondRetMemoria;
            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
             if ( pDado == NULL )
             {
@@ -213,7 +215,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
             strcpy( pDado , StringDado ) ;
 
 			
-			printf("\t%d\n",i);
+			
             CondRet =(TST_tpCondRet) GRA_InserirNo( VTGRAFO[ inxGrafo ],&pDado,intpointer) ;
 
             if ( CondRet != GRA_CondRetOK )
@@ -222,9 +224,9 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
             } 
 
             return TST_CompararInt( CondRetEsp , CondRet ,
-                     "Condicao de retorno errada ao inserir antes."                   ) ;
+                     "Condicao de retorno errada ao inserir No no grafo."                   ) ;
 
-         } /* fim ativa: Testar inserir elemento antes */
+         } /* fim ativa: Testar inserir nó */
 
 		 else if (strcmp( ComandoTeste , IMPRIMIR_GRAFO_CMD ) == 0)
 		 {

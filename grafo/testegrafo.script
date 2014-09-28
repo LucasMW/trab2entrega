@@ -45,8 +45,32 @@
 =imprimirgrafo grafo4 Vazio
 =imprimirgrafo grafo5 Vazio
 ==InserirNo
-=inserirno grafo2 str2 OK
+=inserirno grafo2 str2  OK
 =inserirno grafo1 str1 OK
-=inserirno grafo1 str1 2
-=inserirno grafo1 str1 3
-=inserirno grafo1 str1 OK
+=inserirno grafo4 str0  OK
+=inserirno grafo5 str3 OK
+
+==Imprimir Grafos denovo
+=imprimirgrafo grafo1 OK
+=imprimirgrafo grafo2 OK
+=imprimirgrafo grafo4 OK
+=imprimirgrafo grafo5 OK
+
+==Inserir Series De Nos no grafo2
+=inserirno grafo2 str2  OK
+=inserirno grafo2 str1 OK
+=inserirno grafo2 str0  OK
+=inserirno grafo2 str3 OK
+=inserirno grafo2 str2  OK
+=inserirno grafo2 str1 OK
+=inserirno grafo2 str0  OK
+=inserirno grafo2 str3 OK
+=inserirno grafo2 str2  OK
+=inserirno grafo2 str1 OK
+=inserirno grafo2 str0  OK
+=inserirno grafo2 str3 OK
+=inserirno grafo2 str2  OK
+=inserirno grafo2 str1 OK
+=inserirno grafo2 str0  OK
+=inserirno grafo2 str3 OK
+=imprimirgrafo grafo2 OK

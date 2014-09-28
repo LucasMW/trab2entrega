@@ -63,9 +63,10 @@ static int IdExisteJa(GRA_tppGrafo grafo,int id)
 	p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
 	if(p->verticeId==id)
 		return 1; // EXISTE
-	while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetListaVazia)
-	{
+	while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista)
+	{	
 		p=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		//printf("<id %d, pvid %d>\n",id,p->verticeId);
 		if(p->verticeId==id)
 			return 1; //EXISTE
 
@@ -108,8 +109,10 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
 	int id=1; //ids começam em 1
 		if(LIS_IrFinalLista(grafo->pVertices)!=LIS_CondRetListaVazia)
 		{	
-			while(IdExisteJa,id)
-				id++;    //Garantirá que id sera sempre diferente
+			while(IdExisteJa(grafo,id))
+			{	id++;
+				//printf("id: %d\t",id);
+			}	//Garantirá que id sera sempre diferente
 		}
 		else
 			id=1; //ids começam em 1
@@ -133,6 +136,7 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 	/* vá em cada vértice e imprima suas componentes conexas */
 	GRA_noGrafo p,acs; //percorredor
 	LIS_tppLista l; //percorredor
+	printf("\n");
 	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
 		return GRA_CondRetGrafoVazio;
 	do
@@ -145,21 +149,19 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 			printf("{ ");
 			do 
 			{
+				
 				acs=(GRA_noGrafo)LIS_ObterValor(l);
 				printf("%d ",acs->verticeId);
 			
 			}while(LIS_AvancarElementoCorrente(l,1)!=LIS_CondRetFimLista);
-			printf("}");
+			printf("} ");
 		}
 		else
 			printf("NADA");
+		printf("\n");
 	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
 
 		
-	
-
-
-	
 
 	return GRA_CondRetOK;
 }
