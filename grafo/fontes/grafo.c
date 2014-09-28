@@ -74,6 +74,44 @@ static int IdExisteJa(GRA_tppGrafo grafo,int id)
 	}
 	return 0; //NAO EXISTE
 }
+static int VerificaVisitados ( int * visitados, int qtdNos)
+{
+	int i = 0;
+	for ( i; i<qtdNos; i++){
+		if (visitados[i] == 0)
+			return 0;
+	}
+	return 1;
+}
+static void AtualizaConexos( GRA_tppGrafo grafo)
+{
+	int visitados[1000], qtdNos = 0, i, flagVisitados;
+	GRA_noGrafo noExterno,noInterno;
+	LIS_IrInicioLista(grafo->pVertices);
+	while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
+		qtdNos++;
+	for( i = 0; i < qtdNos ; i++)
+		visitados[i] = 0;
+	while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista){
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+	while(LIS_AvancarElementoCorrente( noExterno->listaArestas ,1 )!=LIS_CondRetFimLista)
+	{
+		noInterno = (GRA_noGrafo)LIS_ObterValor(noExterno->listaArestas);
+		visitados[noInterno->verticeId] = 1;
+	}
+	if (VerificaVisitados(visitados,qtdNos))
+	{
+		flagVisitados = 1;
+	break;
+	}
+}
+	if (flagVisitados)
+	{
+		LIS_ProcurarValor( grafo->pOrigens , noExterno );
+		while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
+			LIS_ExcluirElemento( grafo->pVertices );
+	}
+}
 GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 {
 	GRA_tpGrafo* tempgraf;
@@ -129,6 +167,53 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
 }
 GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, float cost, char direction)
 {
+	int i = 0, j = 0;
+	GRA_noGrafo  noOrigem, noDestino, noComp;
+	
+	IdExisteJa(grafo, node_j);
+	IdExisteJa(grafo, node_i);
+
+	LIS_IrInicioLista(grafo->pVertices);	
+	
+	do{
+		noOrigem=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noOrigem->verticeId==node_i)
+			break; //EXISTE
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetListaVazia);
+
+	LIS_IrInicioLista(grafo->pVertices);
+
+	do{
+		noDestino=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noOrigem->verticeId==node_j)
+			break; //EXISTE
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetListaVazia);
+
+	LIS_IrInicioLista(noOrigem->listaArestas);
+
+	while(LIS_AvancarElementoCorrente( noOrigem->listaArestas ,1 )!=LIS_CondRetFimLista){
+		noComp = (GRA_noGrafo)LIS_ObterValor(noOrigem->listaArestas);
+		if (noComp->verticeId == noDestino->verticeId){
+
+		return GRA_CondRetArestaJaExiste;
+		}
+	}
+		
+	LIS_InserirElementoApos(noOrigem->listaArestas,noDestino);
+	
+	LIS_IrInicioLista(noDestino->listaArestas);
+
+	while(LIS_AvancarElementoCorrente( noDestino->listaArestas ,1 )!=LIS_CondRetFimLista){
+		noComp = (GRA_noGrafo)LIS_ObterValor(noOrigem->listaArestas);
+		if (noComp->verticeId == noOrigem->verticeId){
+
+		return GRA_CondRetArestaJaExiste;
+		}
+	}
+		
+	LIS_InserirElementoApos(noDestino->listaArestas,noOrigem);
+	
+	AtualizaConexos(grafo);
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)

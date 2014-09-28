@@ -243,7 +243,23 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 			   return TST_CompararInt( CondRetEsp, CondRet, "DEU RUIM");
 		 }
 
-         /* fim ativa: Testar inserir elemento apos */
+         /* fim ativa: Testar ImprimirGrafo */
+
+		 /* Testar InserirAresta */
+		  else if (strcmp( ComandoTeste , INSERIR_ARESTA_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iiii",&inxGrafo,&i,&j,&CondRetEsp) ;
+			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_InserirAresta( VTGRAFO[ inxGrafo ],i,j,0,0) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n",CondRet);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no InserirAresta");
+		 }
 
       /* Testar excluir simbolo */
 

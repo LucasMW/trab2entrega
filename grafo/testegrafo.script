@@ -17,6 +17,7 @@
 =declararparm   OK             	int  0
 =declararparm   FatouMemoria    int  1
 =declararparm   Vazio       	int  2
+=declararparm	ArestaJaExiste	int  3
 
 
 ==Declarar Strings

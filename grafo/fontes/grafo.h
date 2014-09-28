@@ -8,7 +8,7 @@ typedef enum {
 		      /* Não há memória pra alocar */
          GRA_CondRetGrafoVazio ,
                /* o grafo não contém elementos */
-
+		GRA_CondRetArestaJaExiste
 
    } GRA_tpCondRet ;
 /***********************************************************************
