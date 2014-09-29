@@ -257,5 +257,16 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 }
 GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo )
 {
+	GRA_noGrafo noTemp;
+	if (LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return GRA_CondRetGrafoVazio;
+	do{
+		noTemp=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		LIS_EsvaziarLista(noTemp->listaArestas);
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+
+	LIS_EsvaziarLista(grafo->pVertices);
+	LIS_EsvaziarLista(grafo->pOrigens);
+
 	return GRA_CondRetOK;
 }
