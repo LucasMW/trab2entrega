@@ -16,3 +16,4 @@
 27/SET/2014; 3h; diagnosticar e corrigir os problemas encontrados; Encontrei problemas na InsereNo (loop infinito) e os consertei
 27/SET/2014; 2H; Elaborar Script de teste; Adicionei Testes ao script de testargrafo
 28/SET/2014; 2h; Revisei Script de Teste; Adicionei Testes e casos de teste para o grafo
+29/SET/2014; 2.5h; diagnosticar e corrigir os problemas encontrados; Encontrei problemas na ObterValor, corrigi e testei
