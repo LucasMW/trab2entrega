@@ -253,7 +253,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
             {
                return TST_CondRetParm ;
             } /* if */
-			  CondRet =(TST_tpCondRet) GRA_InserirAresta( VTGRAFO[ inxGrafo ],i,j,0,0) ;
+			  CondRet =(TST_tpCondRet) GRA_InserirAresta( VTGRAFO[ inxGrafo ],i,j) ;
 			   if ( CondRet != CondRetEsp )
             {
               printf("\nA CondRet foi %d\n",CondRet);
@@ -261,9 +261,39 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no InserirAresta");
 		 }
 
-      /* Testar excluir simbolo */
+      /* Testar excluir aresta */
 
-          /* fim ativa: GRA  &Avan�ar elemento */
+		 else if (strcmp( ComandoTeste , EXC_ARESTA_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iiii",&inxGrafo,&i,&j,&CondRetEsp) ;
+			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ExcluirAresta( VTGRAFO[ inxGrafo ],i,j) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirAresta");
+		 }
+
+          /* fim ativa: GRA  Excluir aresta */
+
+		  else if (strcmp( ComandoTeste , ESVAZIAR_GRAFO_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "ii",&inxGrafo, &CondRetEsp) ;
+			  if ( ( numLidos != 2 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_EsvaziarGrafo( VTGRAFO[ inxGrafo ]) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no EsvaziarGrafo");
+		 }
 
       return TST_CondRetNaoConhec ;
 
