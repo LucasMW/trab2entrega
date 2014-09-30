@@ -57,6 +57,18 @@
 			/* Ponteiro para a Lista de Adjacências de cada vértice */
    };
    typedef struct GRA_verticeGrafo* GRA_noGrafo;
+
+   struct GRA_arestaGrafo{
+   
+   GRA_noGrafo noApontado;
+
+   int verticeId;
+   
+   };
+   typedef struct GRA_arestaGrafo* GRA_tpAresta;
+
+   int visitados[1000];
+
 static int IdExisteJa(GRA_tppGrafo grafo,int id)
 {	GRA_noGrafo p;
 	LIS_IrInicioLista(grafo->pVertices);
@@ -83,15 +95,68 @@ static int VerificaVisitados ( int * visitados, int qtdNos)
 	}
 	return 1;
 }
-static void AtualizaConexos( GRA_tppGrafo grafo)
+int dfs(GRA_tppGrafo grafo, GRA_noGrafo node_i, int node_j)
 {
-	int visitados[1000], qtdNos = 0, i, flagVisitados;
-	GRA_noGrafo noExterno,noInterno;
-	LIS_IrInicioLista(grafo->pVertices);
-	while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
-		qtdNos++;
-	for( i = 0; i < qtdNos ; i++)
-		visitados[i] = 0;
+	int ret = 0;
+	GRA_tpAresta aresta;
+	do{
+		aresta = (GRA_tpAresta)LIS_ObterValor(node_i->listaArestas);
+		if (aresta->verticeId == node_j )
+			return 1;
+		if (visitados[aresta->verticeId] == 0){
+			visitados[aresta->verticeId] = 1;
+			ret = dfs(grafo,aresta->noApontado,node_j);
+		}
+
+	}while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista); 
+	
+	return ret;
+}
+static void AtualizaConexos( GRA_tppGrafo grafo, int node_i, int node_j, int addOrTake)
+{
+	int qtdNos = 0, i, flagVisitados, flagOrigens = 0;
+	GRA_noGrafo noExterno;
+	GRA_tpAresta noInterno;
+
+	if (addOrTake){
+
+	LIS_IrInicioLista(grafo->pOrigens);
+
+	do{
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+		if (noExterno->verticeId == node_i || noExterno->verticeId == node_j)
+			flagOrigens++;
+	}while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista);
+
+	if (flagOrigens == 2){
+		LIS_IrInicioLista(grafo->pOrigens);
+
+	do{
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+		if (noExterno->verticeId == node_i || noExterno->verticeId == node_j)
+			LIS_ExcluirElemento(grafo->pOrigens);
+	}while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista);
+	}
+	}else{
+		LIS_IrInicioLista(grafo->pOrigens);
+		do{
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+		if (noExterno->verticeId == node_i )
+		break;
+	}while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista);
+		
+		if (!dfs(grafo, noExterno, node_j)){
+
+		do{
+		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if (noExterno->verticeId == node_j)
+			break;
+	}while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista);
+		LIS_IrFinalLista( grafo->pOrigens);
+		LIS_InserirElementoApos( grafo->pOrigens , noExterno);
+		}				
+	}
+	/*	
 	while(LIS_AvancarElementoCorrente( grafo->pOrigens ,1 )!=LIS_CondRetFimLista){
 		noExterno = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
 	while(LIS_AvancarElementoCorrente( noExterno->listaArestas ,1 )!=LIS_CondRetFimLista)
@@ -110,7 +175,7 @@ static void AtualizaConexos( GRA_tppGrafo grafo)
 		LIS_ProcurarValor( grafo->pOrigens , noExterno );
 		while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista)
 			LIS_ExcluirElemento( grafo->pVertices );
-	}
+	}*/
 }
 GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 {
@@ -128,7 +193,7 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
 }
 GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo )
 {
-	
+	GRA_EsvaziarGrafo(grafo);
 	LIS_DestruirLista(grafo->pOrigens);
 	grafo->pOrigens=NULL;
 	LIS_DestruirLista(grafo->pVertices);
@@ -139,10 +204,10 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo )
 }
 
 
-GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
+GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int * pNoId)
 {
 	/* Todo nó adicionado, como não tem aresta é uma nova componente conexa */
-	GRA_noGrafo novoNo;
+	GRA_noGrafo novoNo, novaOrigem;
 	
 	int id=1; //ids começam em 1
 		if(LIS_IrFinalLista(grafo->pVertices)!=LIS_CondRetListaVazia)
@@ -155,25 +220,97 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int* pNoId)
 		else
 			id=1; //ids começam em 1
     novoNo=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo)); //cria nó
+	novaOrigem=(GRA_noGrafo)malloc(sizeof(struct GRA_verticeGrafo));
 	if(!novoNo)
 		return GRA_CondRetFaltouMemoria;
 	novoNo->verticeId=id;
 	novoNo->pInfo=pInfo;
+	novaOrigem->verticeId = id;
+	novaOrigem->pInfo=pInfo;
 	if(LIS_CriarLista(&novoNo->listaArestas,free)==LIS_CondRetFaltouMemoria)
 		return GRA_CondRetFaltouMemoria;
 	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova elementolista na lista de nós representando esse vértice
-	LIS_InserirElementoApos(grafo->pOrigens,novoNo); //Linka a componenteconexa ao novo nó sem arestas
+	LIS_InserirElementoApos(grafo->pOrigens,novaOrigem); //Linka a componenteconexa ao novo nó sem arestas
+	*pNoId = id;
 	return GRA_CondRetOK;
 }
-GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, float cost, char direction)
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
 {
 	int i = 0, j = 0;
-	GRA_noGrafo  noOrigem, noDestino, noComp;
+	GRA_noGrafo  noOrigem, noDestino;
+	GRA_tpAresta aresta1, aresta2, noTemp;
+	aresta1= (GRA_tpAresta)malloc(sizeof(struct GRA_arestaGrafo));
+	aresta2= (GRA_tpAresta)malloc(sizeof(struct GRA_arestaGrafo));
 	
 	if (!IdExisteJa(grafo, node_j))
 		return GRA_CondRetNoNaoExiste;
 	if  (!IdExisteJa(grafo, node_i))
-		return GRA_CondRetNoNaoExiste;;
+		return GRA_CondRetNoNaoExiste;
+
+	LIS_IrInicioLista(grafo->pVertices);	
+	
+	do{
+		noOrigem=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noOrigem->verticeId==node_i)
+			break; //EXISTE
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+	
+	LIS_IrInicioLista(grafo->pVertices);
+
+	do{
+		noDestino=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noDestino->verticeId==node_j)
+			break; //EXISTE
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+
+	LIS_IrInicioLista(noOrigem->listaArestas);
+
+	do{
+		noTemp = (GRA_tpAresta)LIS_ObterValor(noOrigem->listaArestas);
+		if (noTemp == NULL)
+			break;
+		if (noTemp->verticeId == noDestino->verticeId){
+		return GRA_CondRetArestaJaExiste;
+		}
+	}while(LIS_AvancarElementoCorrente( noOrigem->listaArestas ,1 )!=LIS_CondRetFimLista);
+
+	aresta1->verticeId = noDestino->verticeId;
+	aresta1->noApontado = noDestino;	
+
+	LIS_InserirElementoApos(noOrigem->listaArestas,aresta1);
+	
+	LIS_IrInicioLista(noDestino->listaArestas);
+
+	do{
+		noTemp = (GRA_tpAresta)LIS_ObterValor(noDestino->listaArestas);
+		if (noTemp == NULL)
+			break;
+		if (noTemp->verticeId == noOrigem->verticeId){
+
+		return GRA_CondRetArestaJaExiste;
+		}
+	}while(LIS_AvancarElementoCorrente( noDestino->listaArestas ,1 )!=LIS_CondRetFimLista);
+	
+	aresta2->verticeId = noOrigem->verticeId;
+	aresta2->noApontado = noOrigem;
+
+	LIS_InserirElementoApos(noDestino->listaArestas, aresta2);
+	/*AtualizaConexos(grafo, node_i, node_j,1);*/
+	
+
+	return GRA_CondRetOK;
+}
+
+GRA_tpCondRet  GRA_ExcluirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
+{
+	int i = 0, j = 0, flag = 0;
+	GRA_noGrafo  noOrigem, noDestino;
+	GRA_tpAresta noComp;
+	
+	if (!IdExisteJa(grafo, node_j))
+		return GRA_CondRetNoNaoExiste;
+	if  (!IdExisteJa(grafo, node_i))
+		return GRA_CondRetNoNaoExiste;
 
 	LIS_IrInicioLista(grafo->pVertices);	
 	
@@ -192,39 +329,44 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, fl
 	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
 
 	LIS_IrInicioLista(noOrigem->listaArestas);
-
+	LIS_IrInicioLista(noDestino->listaArestas);
 	do{
-		noComp = (GRA_noGrafo)LIS_ObterValor(noOrigem->listaArestas);
+		noComp = (GRA_tpAresta)LIS_ObterValor(noOrigem->listaArestas);
 		if (noComp == NULL)
 			break;
 		if (noComp->verticeId == noDestino->verticeId){
-		return GRA_CondRetArestaJaExiste;
+			LIS_ExcluirElemento( noOrigem->listaArestas );
+			flag = 1;
+			break;
 		}
 	}while(LIS_AvancarElementoCorrente( noOrigem->listaArestas ,1 )!=LIS_CondRetFimLista);
-		
-	LIS_InserirElementoApos(noOrigem->listaArestas,noDestino);
 	
-	LIS_IrInicioLista(noDestino->listaArestas);
+	if (flag == 0)
+		return GRA_CondRetArestaNaoExiste;
+	flag = 0;
+	
 
 	do{
-		noComp = (GRA_noGrafo)LIS_ObterValor(noDestino->listaArestas);
+		noComp = (GRA_tpAresta)LIS_ObterValor(noDestino->listaArestas);
 		if (noComp == NULL)
 			break;
 		if (noComp->verticeId == noOrigem->verticeId){
-
-		return GRA_CondRetArestaJaExiste;
+		LIS_ExcluirElemento( noDestino->listaArestas );
+		flag = 1;
+		break;
 		}
 	}while(LIS_AvancarElementoCorrente( noDestino->listaArestas ,1 )!=LIS_CondRetFimLista);
-		
-	LIS_InserirElementoApos(noDestino->listaArestas,noOrigem);
 	
-	AtualizaConexos(grafo);
+	if (flag == 0)
+		return GRA_CondRetArestaNaoExiste;
+	/*AtualizaConexos(grafo, node_i, node_j,0);*/
 	return GRA_CondRetOK;
 }
 GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 {
 	/* vá em cada vértice e imprima suas componentes conexas */
-	GRA_noGrafo p,acs; //percorredor
+	GRA_noGrafo p; //percorredor
+	GRA_tpAresta acs;  //percorredor
 	LIS_tppLista l; //percorredor
 	printf("\n");
 	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
@@ -240,7 +382,7 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo)
 			do 
 			{
 				
-				acs=(GRA_noGrafo)LIS_ObterValor(l);
+				acs=(GRA_tpAresta)LIS_ObterValor(l);
 				printf("%d ",acs->verticeId);
 			
 			}while(LIS_AvancarElementoCorrente(l,1)!=LIS_CondRetFimLista);
@@ -265,8 +407,21 @@ GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo )
 		LIS_EsvaziarLista(noTemp->listaArestas);
 	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
 
-	LIS_EsvaziarLista(grafo->pVertices);
+	
 	LIS_EsvaziarLista(grafo->pOrigens);
+	LIS_EsvaziarLista(grafo->pVertices);
+	
 
 	return GRA_CondRetOK;
+}
+
+void imprimirOrigens (GRA_tppGrafo grafo){
+	
+	GRA_noGrafo no;
+	do{
+		LIS_IrInicioLista(grafo->pOrigens);
+		no = (GRA_noGrafo)LIS_ObterValor(grafo->pOrigens);
+		printf("%d\n",no->verticeId);
+
+	}while(LIS_AvancarElementoCorrente(grafo->pOrigens,1)!=LIS_CondRetFimLista);
 }
