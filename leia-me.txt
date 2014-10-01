@@ -20,7 +20,7 @@ clicar em trab2lista.bat
 e ler o relatório gerado (um arquivo.txt)
 
 Para ler o script de teste:
-testelista.bat
+abrir testelista.script com um editor de texto
 
 Para Ler os arquivos fontes do TADLISTA
 clicar em modulo1
@@ -33,7 +33,7 @@ clicar em trab2grafo.bat
 e ler o relatório gerado (um arquivo.txt)
 
 Para ler o script de teste:
-testegrafo.bat
+abrir testegrafo.script com um editor de texto
 
 Para Ler os arquivos fontes do TADGRAFO
 clicar em grafo
