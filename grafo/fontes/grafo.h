@@ -61,11 +61,11 @@ typedef enum {
          GRA_CondRetGrafoVazio ,
                /* o grafo não contém elementos */
 		 GRA_CondRetArestaJaExiste,
-			
+	       /* A aresta já existe */		
 		 GRA_CondRetNoNaoExiste,
-
+	       /* O nó não existe */
 		 GRA_CondRetArestaNaoExiste
-
+	       /* A aresta já existe */
    } GRA_tpCondRet ;
 /***********************************************************************
 *
@@ -136,8 +136,70 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 ***********************************************************************/
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
 GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int noId);
+/***********************************************************************
+*
+*  $FC Função: GRA  &Inserir aresta
+*
+*  $ED Descrição da função
+*     A função insere uma nova aresta entre os nós cujos Id foram passados como parâmetro. Por definição
+*	  toda aresta que liga o nó A ao B, liga o nó B ao A também. A função também atualiza as componentes conexas.
+*
+*  $EP Parâmetros
+*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
+*	  no_x_Id		- ID de um dos vértices onde será colocada a aresta
+*	  no_y_Id		- ID do outro vértice onde será colocada a aresta
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna GRA_CondRetOK
+*	  Se um dos nós nao existe, retorna GRA_CondRetNoNaoExiste
+*	  Se a aresta já existe, retorna GRA_CondRetArestaJaExiste
+*    
+*
+***********************************************************************/
+
 GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
+
+
+/***********************************************************************
+*
+*  $FC Função: GRA  &Excluir aresta
+*
+*  $ED Descrição da função
+*     A função exclui uma aresta existente entre os nós cujos Id foram passados como parâmetros.
+*	  A função também atualiza as componentes conexas.
+*
+*  $EP Parâmetros
+*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
+*	  no_x_Id		- ID de um dos vértices onde será colocada a aresta
+*	  no_y_Id		- ID do outro vértice onde será colocada a aresta
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna GRA_CondRetOK
+*	  Se um dos nós nao existe, retorna GRA_CondRetNoNaoExiste
+*	  Se a aresta não existe, retorna GRA_CondRetArestaNaoExiste
+*    
+*
+***********************************************************************/
 GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
+
+/***********************************************************************
+*
+*  $FC Função: GRA  &Esvaziar Grafo
+*
+*  $ED Descrição da função
+*     Esta Função esvazia o grafo, liberando todos os elementos. O grafo fica como se
+*	  tivesse sido recém criado.
+*  $EP Parâmetros
+*	  grafo			- ponteiro para a cabeça do grafo a ser esvaziado
+*	 
+*  $FV Valor retornado
+*     Se executou corretamente retornará GRA_CondRetOK
+*	  Se o grafo já estava vazio, retorna GRA_CondRetGrafoVazio
+*
+*     
+***********************************************************************/
+
+
 GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
 
 /***********************************************************************
