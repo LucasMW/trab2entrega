@@ -1,3 +1,55 @@
+/***************************************************************************
+*
+* $MCD Módulo de definição: GRA GRAFO Genérico  duplamente encadeada
+*
+* Arquivo gerado: grafo.h
+* Letras identificadoras: GRA
+*
+* Nome da base de software: Arcabouço para a automação de testes de programas redigidos em C
+*
+* Projeto: INF 1301 Trabalho 2
+* Gestor: LES/DI/PUC-Rio
+* Autores:  Lucas Menezes <LM>, Lorenzo Saraiva <LS>
+*
+* $HA Histórico de evolução:
+* Versão Autor Data Observações
+* 1     LM,LS 22/set/2014 Início do Desenvolvimento
+*
+* $ED Descrição do módulo
+* Implementa Um grafo genérico cujas arestas são bidirecionais 
+*  O grafo é definido como um conjunto de vértices (ou nós) e suas arestas
+* 
+* Arestas Bidirecionais significam que se (para todo nó A e B) A está ligado em B <=> B está ligado em A
+* Cada vértice gerado é identificado por um inteiro >= 1 e não há dois vértice com 
+* a mesma identificação coexistindo no mesmo grafo.
+* 
+* As operações com vértices e arestas são feitas indicando as identificações dos vértices envolvidos
+* Ao Criar um vértice, a identificação dele é fornecida ao usuário, 
+* para que possa ser posteriormente operado
+* 
+* Podem existir n grafos em operação simultaneamente.
+* Os grafos possuem uma cabeça encapsulando o seu estado.
+* 
+* 
+* Cada grafo é homogêneo quanto ao tipo dos dados que armazena.
+* Cada vértice do grafo referencia o valor que contém.
+*
+* Os ponteiros para os dados são copiados para elementos da grafo
+* Não é copiado o valor apontado por estes ponteiros.
+*
+* O controle da destruição do valor de um vértice a ser excluído
+* é realizado por uma função fornecida pelo usuário.
+*
+* Cada grafo referencia uma função que determina como devem ser
+* desalocados os dados nela contidos.
+*
+
+* Esta função é chamada antes de se desalocar um vértice
+* de um grafo.
+
+
+
+***************************************************************************/
 ﻿typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 
 typedef enum {
