@@ -18,3 +18,5 @@ Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 28/SET/2014; 2h; Revisei Script de Teste; Adicionei Testes e casos de teste para o grafo
 29/SET/2014; 2.5h; diagnosticar e corrigir os problemas encontrados; Encontrei problemas na ObterValor, corrigi e testei
 30/SET/2014; 2.5h; Revisei Projeto; Revisei o modelo físico e as assertivas do labirinto
+01/SET/2014; 2h; Revisar módulos; Revisei múltiplos módulos e suas documentações
+01/SET/2014; 2h; Realizei Testes; Realizei múltiplos testes nos executáveis, inclusindo testandos numa virtualização Windows XP SP2
