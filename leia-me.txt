@@ -1,36 +1,36 @@
 Para Executar o projeto
 
-Para ler o Diagrama da Arquitetura da aplica玢o:
+Para ler o Diagrama da Arquitetura da aplica莽茫o:
 clicar em diag_arq.pdf
 
-Para ler o Modelo F韘ico e suas Assertivas:
+Para ler o Modelo F铆sico e suas Assertivas:
 Clicar em MFA.pdf
 
 Para ler os Requisitos do projeto
 Clicar em requisitos.pdf
 
-Para ler os Relat髍ios de trabalho dos integrantes do grupo:
-clicar em relat髍io_lorenzo.txt
-clicar em relat髍io_lucas.txt
-clicar em relat髍io_felipe.txt
+Para ler os Relat贸rios de trabalho dos integrantes do grupo:
+clicar em relat贸rio_lorenzo.txt
+clicar em relat贸rio_lucas.txt
+clicar em relat贸rio_felipe.txt
 
 Para Executar os do TADLISTA:
-clicar em modulo1
+clicar em lista
 clicar em trab2lista.bat 
-e ler o relat髍io gerado (um arquivo.txt)
+e ler o relat贸rio gerado (um arquivo.txt)
 
 Para ler o script de teste:
 abrir testelista.script com um editor de texto
 
 Para Ler os arquivos fontes do TADLISTA
-clicar em modulo1
+clicar em lista
 clicar em fontes
-e ler os m骴ulos (arquivos .c e .h)
+e ler os m贸dulos (arquivos .c e .h)
 
 Para Executar os do TADGRAFO:
 clicar em grafo
 clicar em trab2grafo.bat 
-e ler o relat髍io gerado (um arquivo.txt)
+e ler o relat贸rio gerado (um arquivo.txt)
 
 Para ler o script de teste:
 abrir testegrafo.script com um editor de texto
@@ -38,5 +38,5 @@ abrir testegrafo.script com um editor de texto
 Para Ler os arquivos fontes do TADGRAFO
 clicar em grafo
 clicar em fontes
-e ler os m骴ulos (arquivos .c e .h)
+e ler os m贸dulos (arquivos .c e .h)
 
