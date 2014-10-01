@@ -13,7 +13,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       LM    22/SET/2014 início desenvolvimento
+*     1       LM,LS    22/SET/2014 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -39,6 +39,7 @@ static const char OBTER_VALOR_CMD         [ ] = "=obtervalorno" ;
 static const char EXC_NO_CMD            [ ] = "=excluirno"    ;
 static const char EXC_ARESTA_CMD            [ ] = "=excluiraresta"    ;
 static const char IMPRIMIR_GRAFO_CMD            [ ] = "=imprimirgrafo"    ;
+static const char OBTER_VALOR_NO_CMD         [ ] = "=obtervalorno" ;
 /* Por hora ainda n�o entendo o resto*/
 static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
 static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
@@ -77,16 +78,13 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 *     =resetteste
 *           - anula o vetor de grafos. Provoca vazamento de mem�ria
 *     =criargrafo                   inxGrafo    CondRetEsp
-*     =destruirgrafo                inxGrafo
-*     =esvaziargrafo                inxGrafo
+*     =destruirgrafo                inxGrafo	CondRetEsp
+*     =esvaziargrafo                inxGrafo	CondRetEsp
 *     =inserirno					inxGrafo  string  intPonteiro CondRetEsp
-*     =inseriraresta                inxGrafo  string  CondRetEsp
-*     =obtervalorno					inxGrafo  string  CondretPonteiro
-*     =excluirno					inxGrafo  CondRetEsp
-*	  =excluirno					inxGrafo  CondRetEsp
-*     =irinicio                     inxGrafo
-*     =irfinal                      inxGrafo
-*     =avancarelem                  inxGrafo  numElem CondRetEsp
+*     =inseriraresta                inxGrafo  inxNo1 inxNo2 CondRetEsp
+*     =obtervalorno					inxGrafo  string  inxNo CondretPonteiro
+*     =excluirno					inxGrafo  inxNo CondRetEsp
+*
 *
 ***********************************************************************/
 
@@ -103,7 +101,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
       char   StringDado[  DIM_VALOR ] ;
       char * pDado ;
-
+	  char ** strp;
       int ValEsp = -1 ;
 
       int i ;
@@ -279,7 +277,42 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 		 }
 
           /* fim ativa: GRA  Excluir aresta */
-
+		  /* Testar ObterValorNo*/
+		  
+		 else if (strcmp( ComandoTeste , OBTER_VALOR_NO_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iisi",&inxGrafo,&i,&StringDado,&CondRetEsp) ;
+			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  
+			 pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
+			 strcpy(pDado,StringDado);
+            if ( pDado == NULL )
+            {
+               return TST_CondRetMemoria ;
+            } /* if */
+		
+		
+            CondRet =(TST_tpCondRet) GRA_ObterValorNo( VTGRAFO[ inxGrafo ],i,(void**)&strp);
+			
+		  if(pDado==NULL)
+		  {	
+			
+			  return TST_CompararPonteiroNulo( 1 , pDado ,"Dado deveria existir." ) ;
+		  }
+		  if(CondRetEsp!=CondRet)
+		  {
+			  
+		     return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ObterValor");
+		  }
+		
+			  return TST_CompararString( *strp , pDado ,
+                         "\tValor diferente o esperado " ) ;
+		  
+		 }
+		 /* fim ativa: Testar ObterValorNo */
 		  else if (strcmp( ComandoTeste , ESVAZIAR_GRAFO_CMD ) == 0)
 		 {
 			 numLidos = LER_LerParametros( "ii",&inxGrafo, &CondRetEsp) ;
@@ -298,6 +331,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
       return TST_CondRetNaoConhec ;
 
    } /* Fim fun��o: TGRA &Testar grafo */
+
 
 
 /*****  C�digo das fun��es encapsuladas no m�dulo  *****/
