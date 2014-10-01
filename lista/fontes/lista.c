@@ -9,10 +9,11 @@
 *
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: avs, Lucas Menezes <LM>
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*	  5		  LM	02/set/2014 Adaptar Interfaces de funções aos padrões da disciplina
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
