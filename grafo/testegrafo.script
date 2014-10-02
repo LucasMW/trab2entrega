@@ -18,8 +18,9 @@
 =declararparm   FatouMemoria    int  1
 =declararparm   Vazio       	int  2
 =declararparm	ArestaJaExiste	int  3
-=declararparm	NoNaoExiste	int  4
+=declararparm	NoNaoExiste		int  4
 =declararparm	ArestaNaoExiste	int  5
+=declararparm	JaEsta			int	 6
 
 ==Declarar Strings
 =declararparm   str0    string  "abcdefg"
@@ -36,7 +37,9 @@
 =criargrafo grafo5
 
 ==Ezvaziar Grafo
-=esvaziargrafo grafo3
+=esvaziargrafo grafo3 Vazio
+=excluirno     grafo3 10 Vazio
+=irpara		   grafo3 10 Vazio
 
 ==DestruirGrafo
 =destruirgrafo grafo3
@@ -46,11 +49,14 @@
 =imprimirgrafo grafo2 Vazio
 =imprimirgrafo grafo4 Vazio
 =imprimirgrafo grafo5 Vazio
+=obteridcorr grafo2 Vazio 0 0
+=obtervalorcorr grafo2 str0 Vazio
+=recuperar
 ==InserirNo
-=inserirno grafo2 str2  OK
-=inserirno grafo1 str1 OK
-=inserirno grafo4 str0  OK
-=inserirno grafo5 str3 OK
+=inserirno grafo2 str2  OK no1
+=inserirno grafo1 str1 OK	no1
+=inserirno grafo4 str0  OK	no1
+=inserirno grafo5 str3 OK	no1
 
 ==Imprimir Grafos denovo
 =imprimirgrafo grafo1 OK
@@ -59,23 +65,29 @@
 =imprimirgrafo grafo5 OK
 
 ==Inserir Series De Nos no grafo2
-=inserirno grafo2 str2  OK
-=inserirno grafo2 str1 OK
+=inserirno grafo2 str2  OK	
+=inserirno grafo2 str1 OK	
+=inserirno grafo2 str0  OK	
+=inserirno grafo2 str3 OK	
+=inserirno grafo2 str2  OK	
+=inserirno grafo2 str1 OK	
+=inserirno grafo2 str0  OK	
+=inserirno grafo2 str3 OK	
+=inserirno grafo2 str2  OK	
+=inserirno grafo2 str1 OK	
+=obtervalorcorr grafo2 str1 OK
 =inserirno grafo2 str0  OK
-=inserirno grafo2 str3 OK
-=inserirno grafo2 str2  OK
+=obtervalorcorr grafo2 str0 OK	
+=inserirno grafo2 str3 OK	
+=inserirno grafo2 str2  OK	
 =inserirno grafo2 str1 OK
-=inserirno grafo2 str0  OK
-=inserirno grafo2 str3 OK
-=inserirno grafo2 str2  OK
-=inserirno grafo2 str1 OK
-=inserirno grafo2 str0  OK
-=inserirno grafo2 str3 OK
-=inserirno grafo2 str2  OK
-=inserirno grafo2 str1 OK
-=inserirno grafo2 str0  OK
-=inserirno grafo2 str3 OK
+=obteridcorr grafo2 OK 15 	
+=inserirno grafo2 str0  OK  
+=obteridcorr grafo2 OK 16 
+=inserirno grafo2 str3 OK	
 =imprimirgrafo grafo2 OK
+=obteridcorr grafo2 OK 17 
+
 
 ==ObterValores
 =obtervalorno grafo2 1 str2 OK
@@ -88,19 +100,38 @@
 
 ==Inserindo arestas no grafo
 
-=inseriraresta grafo2 1 2 OK
+=inseriraresta grafo2 17 16 OK
+=imprimirgrafo grafo2 OK
+=irvizinho 	   grafo2 JaEsta 17
+=irvizinho	   grafo2 NoNaoExiste 20
+=irvizinho     grafo2 OK 16
+=irvizinho	   grafo2 ArestaNaoExiste 1
+=excluirno     grafo2 10 OK
+=excluirno     grafo2 10 NoNaoExiste
+=excluirno     grafo2 20 NoNaoExiste
+=excluircorr   grafo2 OK
+=obteridcorr   grafo2 OK 15
+=irpara		   grafo2 2 OK
+=irpara		   grafo2 30 NoNaoExiste
+=obteridcorr   grafo2 OK 2
 =inseriraresta grafo2 1 3 OK
 =inseriraresta grafo2 1 4 OK
 =inseriraresta grafo2 2 5 OK
+=obteridcorr   grafo2 OK 2
+=irvizinho     grafo2 JaEsta 2
+=irpara		   grafo2 1 OK
+=imprimirgrafo grafo2 OK
+
 =inseriraresta grafo2 1 7 OK
 =inseriraresta grafo2 1 8 OK
 =inseriraresta grafo2 5 8 OK
+
 =inseriraresta grafo2 4 9 OK
 =inseriraresta grafo2 30 0 NoNaoExiste
-=inseriraresta grafo2 1 2 ArestaJaExiste
+=inseriraresta grafo2 1 2 OK
 =imprimirgrafo grafo2 OK
 
-==Testando a exclus„o de arestas
+==Testando a exclus√£o de arestas
 
 =excluiraresta grafo2 1 3 OK
 =imprimirgrafo grafo2 OK
