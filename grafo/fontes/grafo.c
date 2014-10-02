@@ -44,7 +44,8 @@
 
          void ( * ExcluirValor ) ( void * pValor ) ;
                /* Ponteiro para a função de destruição do valor contido em um elemento */
-
+	int idCorrente;
+				/* id do vértice corrente */
    } GRA_tpGrafo ;
 
    /***********************************************************************
@@ -549,3 +550,37 @@ static void imprimirOrigens (GRA_tppGrafo grafo){
 	}while(LIS_AvancarElementoCorrente(grafo->pOrigens,1)!=LIS_CondRetFimLista);
 }
 
+GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId)
+{
+	LIS_tppLista l1;
+	GRA_noGrafo no;
+	l1=grafo->pVertices; //backup
+	if(!grafo->pVertices)
+		return GRA_CondRetGrafoVazio;
+	LIS_IrInicioLista(grafo->pVertices);
+	do
+	{
+		no=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(no->verticeId==noId)
+		{	/* Achou */
+			/* Deixe A lista nessa Posição */
+			grafo->idCorrente=noId;
+			return GRA_CondRetOK;
+
+		}
+	}
+	while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+	/* Não Achou */
+	grafo->pVertices=l1; //Restaure posição da lista, não altere nó corrente
+	return GRA_CondRetNoNaoExiste;
+}
+
+static GRA_tpCondRet IrParaCorr(GRA_tppGrafo grafo)
+{
+	if(!grafo->pVertices)
+		return GRA_CondRetGrafoVazio;
+	return GRA_IrParaNo(grafo,grafo->idCorrente);
+}
+GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void** endVar)
+{
+return (GRA_ObterValorNo(grafo,grafo->idCorrente,endVar));
