@@ -54,11 +54,11 @@
 
 typedef enum {
 
-         GRA_CondRetOK ,
+         	GRA_CondRetOK ,
                /* Concluiu corretamente */
 		 GRA_CondRetFaltouMemoria ,
 		      /* Não há memória pra alocar */
-         GRA_CondRetGrafoVazio ,
+        	 GRA_CondRetGrafoVazio ,
                /* o grafo não contém elementos */
 		 GRA_CondRetArestaJaExiste,
 	       /* A aresta já existe */		
@@ -66,6 +66,8 @@ typedef enum {
 	       /* O nó não existe */
 		 GRA_CondRetArestaNaoExiste
 	       /* A aresta já existe */
+   		GRA_CondRetJaEsta
+
    } GRA_tpCondRet ;
 /***********************************************************************
 *
@@ -77,7 +79,7 @@ typedef enum {
 *     Esta função apenas inicializa as listas de componentes conexas (vértices e Comp Conexas) 
 *
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo a ser gerado, a ser retornado por referência
+*	  refgrafo		- endereço ponteiro para a cabeça do grafo a ser gerado, a ser retornado por referência
 *     ExcluirValor  - ponteiro para a função que processa a
 *                     exclusão do valor referenciado pelo nó
 *                     a ser excluído.
@@ -92,7 +94,7 @@ typedef enum {
 *    
 *
 ***********************************************************************/
-GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* Refgrafo);
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo,  void   ( * ExcluirValor ) ( void * pDado ));
 
 /***********************************************************************
 *
@@ -135,7 +137,9 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 *     
 ***********************************************************************/
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
-GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int noId);
+GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id);
+GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
+
 /***********************************************************************
 *
 *  $FC Função: GRA  &Inserir aresta
@@ -199,7 +203,6 @@ GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
 *     
 ***********************************************************************/
 
-
 GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
 
 /***********************************************************************
@@ -220,66 +223,16 @@ GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
 ***********************************************************************/
 GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 
-/***********************************************************************
-*
-*  $FC Função: GRA  &Obter Valor do Nó
-*
-*  $ED Descrição da função
-*     Esta Função recebe um id do vértice e retorna por ref a informação	
-*	  do nó
-*  $EP Parâmetros
-*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
-*	  noId			- inteiro para o Id do nó cujo valor será recebido
-*	  endVar		- o endereço da variável que receberá o valor do nó
-*  $FV Valor retornado
-*     Se executou corretamente retornará GRA_CondRetOK.
-*	  Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
-*     Se o nó não existir retornará GRA_CondRetNoNaoExiste.
-*
-*     
-***********************************************************************/
-GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar);
+GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void ** pInfo);
 
-/***********************************************************************
-*
-*  $FC Função: GRA  &Ir Para Nó
-*
-*  $ED Descrição da função
-*     Esta Função recebe um id do vértice e o situa o elemento corrente 
-*	  da estrutura.
-*	  Caso o nó não exista, a função vai manter o valor corrente recebido
-*	  
-*  $EP Parâmetros
-*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
-*	  noId			- inteiro para o Id do nó que virará corrente
-*	  endVar		- o endereço da variável que receberá o valor do nó
-*  $FV Valor retornado
-*     Se executou corretamente retornará GRA_CondRetOK.
-*	  Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
-*     Se o nó não existir retornará GRA_CondRetNoNaoExiste.
-*
-*     
-***********************************************************************/
+GRA_tpCondRet GRA_ObterNoCorrente( GRA_tppGrafo grafo, int * refId);
+
+GRA_tpCondRet GRA_IrNoVizinho( GRA_tppGrafo grafo, int noVizinho);
+
+GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar);
 
 GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId);
 
-/***********************************************************************
-*
-*  $FC Função: GRA  &Obter Nó Corrente
-*
-* 
-*
-*  $ED Descrição da função
-*     Esta Função recebe um grafo e retorna por ref a informação	
-*	  do nó corrente
-*  $EP Parâmetros
-*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
-*	  endVar		- o endereço da variável que receberá o valor do nó
-*  $FV Valor retornado
-*     Se executou corretamente retornará GRA_CondRetOK.
-*	  Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
-*     Se o nó não existir retornará GRA_CondRetNoNaoExiste..
-*
-*     
-***********************************************************************/
-GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void** endVar);
+
+
+
