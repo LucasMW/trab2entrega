@@ -75,19 +75,20 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 *
 *     Comandos disponíveis:
 *
-*     =resetteste
-*           - anula o vetor de grafos. Provoca vazamento de mem�ria
-*     =criargrafo                   inxGrafo    CondRetEsp
-*     =destruirgrafo                inxGrafo
+*     
+*     =criargrafo                   inxGrafo   
+*     =destruirgrafo                inxGrafo	
 *     =esvaziargrafo                inxGrafo
-*     =inserirno					inxGrafo  string  intPonteiro CondRetEsp
-*     =inseriraresta                inxGrafo  string  CondRetEsp
-*     =obtervalorno					inxGrafo  string  CondretPonteiro
-*     =excluirno					inxGrafo  CondRetEsp
-*	  =excluirno					inxGrafo  CondRetEsp
-*     =irinicio                     inxGrafo
-*     =irfinal                      inxGrafo
-*     =avancarelem                  inxGrafo  numElem CondRetEsp
+*     =inserirno					inxGrafo  string  CondRetEsp
+*     =inseriraresta                inxGrafo  NoId_X NoId_Y Value CondRetEsp
+*     =obtervalorno					inxGrafo  NoId StringEsp CondRetEsp
+*     =imprimirgrafo				inxGrafo  CondRetEsp
+*     =excluirno					inxGrafo  NoId	CondRetEsp
+*	  =excluircorr					inxGrafo  CondRetEsp
+*     =obteridcorr                  inxGrafo  ValorEsp CondRetEsp
+*     =obtervalorcorr               inxGrafo  StringEsp  ConRetEsp
+*     =obteridcorr                  inxGrafo  idEsp CondRetEs
+*	  
 *
 ***********************************************************************/
 
@@ -375,15 +376,15 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
 		   else if (strcmp( ComandoTeste , EXC_NO_CMD ) == 0)
 		 {
-			 numLidos = LER_LerParametros( "iii",&inxGrafo,&noCorrente,&CondRetEsp) ;
+			 numLidos = LER_LerParametros( "iii",&inxGrafo,&i,&CondRetEsp) ;
 			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
-			  CondRet =(TST_tpCondRet) GRA_ExcluirNo( VTGRAFO[ inxGrafo ],noCorrente) ;
+			  CondRet =(TST_tpCondRet) GRA_ExcluirNo( VTGRAFO[ inxGrafo ],i) ;
 			   if ( CondRet != CondRetEsp )
             {
-              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+              printf("\nA CondRet foi %d\n",CondRet);
             } 
 			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirNo");
 		 }
