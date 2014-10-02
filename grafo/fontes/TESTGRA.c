@@ -13,7 +13,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       LM,LS    22/SET/2014 início desenvolvimento
+*     1       LM    22/SET/2014 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -33,17 +33,17 @@ static const char RESET_GRAFO_CMD         [ ] = "=resetgrafo"     ;
 static const char CRIAR_GRAFO_CMD         [ ] = "=criargrafo"     ;
 static const char DESTRUIR_GRAFO_CMD      [ ] = "=destruirgrafo"  ;
 static const char ESVAZIAR_GRAFO_CMD      [ ] = "=esvaziargrafo"  ;
-static const char INSERIR_NO_CMD      [ ] = "=inserirno"   ;
-static const char INSERIR_ARESTA_CMD       [ ] = "=inseriraresta"    ;
-static const char OBTER_VALOR_CMD         [ ] = "=obtervalorno" ;
-static const char EXC_NO_CMD            [ ] = "=excluirno"    ;
-static const char EXC_ARESTA_CMD            [ ] = "=excluiraresta"    ;
-static const char IMPRIMIR_GRAFO_CMD            [ ] = "=imprimirgrafo"    ;
-static const char OBTER_VALOR_NO_CMD         [ ] = "=obtervalorno" ;
-/* Por hora ainda n�o entendo o resto*/
-static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
-static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
-static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
+static const char INSERIR_NO_CMD          [ ] = "=inserirno"	  ;
+static const char INSERIR_ARESTA_CMD      [ ] = "=inseriraresta"  ;
+static const char OBTER_VALOR_NO_CMD      [ ] = "=obtervalorno"	  ;
+static const char EXC_NO_CMD              [ ] = "=excluirno"      ;
+static const char EXC_ARESTA_CMD          [ ] = "=excluiraresta"  ;
+static const char IMPRIMIR_GRAFO_CMD      [ ] = "=imprimirgrafo"  ;
+static const char OBTER_ID_CMD		  [ ] = "=obteridcorr"    ;
+static const char OBTER_VALOR_CORR_CMD	  [ ] = "=obtervalorcorr" ;
+static const char IR_VIZINHO_CMD          [ ] = "=irvizinho"      ;
+static const char EXC_CORR_CMD		  [ ] = "=excluircorr"	  ;
+static const char IR_PARA_CMD		  [ ] = "=irpara"	  ;
 
 
 #define TRUE  1
@@ -78,13 +78,16 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 *     =resetteste
 *           - anula o vetor de grafos. Provoca vazamento de mem�ria
 *     =criargrafo                   inxGrafo    CondRetEsp
-*     =destruirgrafo                inxGrafo	CondRetEsp
-*     =esvaziargrafo                inxGrafo	CondRetEsp
+*     =destruirgrafo                inxGrafo
+*     =esvaziargrafo                inxGrafo
 *     =inserirno					inxGrafo  string  intPonteiro CondRetEsp
-*     =inseriraresta                inxGrafo  inxNo1 inxNo2 CondRetEsp
-*     =obtervalorno					inxGrafo  string  inxNo CondretPonteiro
-*     =excluirno					inxGrafo  inxNo CondRetEsp
-*
+*     =inseriraresta                inxGrafo  string  CondRetEsp
+*     =obtervalorno					inxGrafo  string  CondretPonteiro
+*     =excluirno					inxGrafo  CondRetEsp
+*	  =excluirno					inxGrafo  CondRetEsp
+*     =irinicio                     inxGrafo
+*     =irfinal                      inxGrafo
+*     =avancarelem                  inxGrafo  numElem CondRetEsp
 *
 ***********************************************************************/
 
@@ -102,10 +105,13 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
       char   StringDado[  DIM_VALOR ] ;
       char * pDado ;
 	  char ** strp;
+
       int ValEsp = -1 ;
 
       int i ;
 	  int j;
+	  int noCorrente;
+	  int noCorrenteEsperado;
 	  int* intpointer;
       int numElem = -1 ;
 
@@ -140,11 +146,11 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
             } /* if */
 
 
-                 GRA_CriarGrafo(&VTGRAFO[ inxGrafo ]) ;
+                 GRA_CriarGrafo(&VTGRAFO[ inxGrafo ],free) ;
 				 //epgrafo retornado por ref
 
             return TST_CompararPonteiroNulo( 1 , VTGRAFO[ inxGrafo ] ,
-               "Erro em ponteiro de nova grafo."  ) ;
+               "Erro em ponteiro de novo grafo."  ) ;
 
          } /* fim ativa: Testar CriarGrafo */
 
@@ -216,6 +222,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 			
             CondRet =(TST_tpCondRet) GRA_InserirNo( VTGRAFO[ inxGrafo ],&pDado,intpointer) ;
 
+
             if ( CondRet != GRA_CondRetOK )
             {
                free( pDado ) ;
@@ -261,23 +268,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 
       /* Testar excluir aresta */
 
-		 else if (strcmp( ComandoTeste , EXC_ARESTA_CMD ) == 0)
-		 {
-			 numLidos = LER_LerParametros( "iiii",&inxGrafo,&i,&j,&CondRetEsp) ;
-			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-			  CondRet =(TST_tpCondRet) GRA_ExcluirAresta( VTGRAFO[ inxGrafo ],i,j) ;
-			   if ( CondRet != CondRetEsp )
-            {
-              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
-            } 
-			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirAresta");
-		 }
-
-          /* fim ativa: GRA  Excluir aresta */
-		  /* Testar ObterValorNo*/
+		 /* Testar ObterValorNo*/
 		  
 		 else if (strcmp( ComandoTeste , OBTER_VALOR_NO_CMD ) == 0)
 		 {
@@ -313,6 +304,104 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 		  
 		 }
 		 /* fim ativa: Testar ObterValorNo */
+
+		   else if (strcmp( ComandoTeste , OBTER_VALOR_CORR_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "isi",&inxGrafo,&StringDado,&CondRetEsp) ;
+			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  
+			 pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
+			 strcpy(pDado,StringDado);
+            if ( pDado == NULL )
+            {
+               return TST_CondRetMemoria ;
+            } /* if */
+		
+		
+            CondRet =(TST_tpCondRet) GRA_ObterValorNoCorrente( VTGRAFO[ inxGrafo ],(void**)&strp);
+			
+		  if(pDado==NULL)
+		  {	
+			
+			  return TST_CompararPonteiroNulo( 1 , pDado ,"Dado deveria existir." ) ;
+		  }
+		  if(CondRetEsp!=CondRet)
+		  {
+			  
+		     return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ObterValorNoCorrente");
+		  }
+		
+			  return TST_CompararString( *strp , pDado ,
+                         "\tValor diferente o esperado " ) ;
+		  
+		 }
+		 /* fim ativa: Testar ObterValorNoCorrrente */
+
+		 else if (strcmp( ComandoTeste , EXC_ARESTA_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iiii",&inxGrafo,&i,&j,&CondRetEsp) ;
+			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ExcluirAresta( VTGRAFO[ inxGrafo ],i,j) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirAresta");
+		 }
+
+          /* fim ativa: GRA  Excluir aresta */
+
+		    else if (strcmp( ComandoTeste , IR_PARA_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iii",&inxGrafo,&noCorrente,&CondRetEsp) ;
+			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_IrParaNo( VTGRAFO[ inxGrafo ],noCorrente) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no IrPara");
+		 }
+
+		   else if (strcmp( ComandoTeste , EXC_NO_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iii",&inxGrafo,&noCorrente,&CondRetEsp) ;
+			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ExcluirNo( VTGRAFO[ inxGrafo ],noCorrente) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirNo");
+		 }
+
+		 else if (strcmp( ComandoTeste , EXC_CORR_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "ii",&inxGrafo, &CondRetEsp) ;
+			  if ( ( numLidos != 2 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ExcluirNoCorrente( VTGRAFO[ inxGrafo ]) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no ExcluirNoCorrente");
+		 }
+
 		  else if (strcmp( ComandoTeste , ESVAZIAR_GRAFO_CMD ) == 0)
 		 {
 			 numLidos = LER_LerParametros( "ii",&inxGrafo, &CondRetEsp) ;
@@ -328,10 +417,38 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 			   return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no EsvaziarGrafo");
 		 }
 
+		 else if (strcmp( ComandoTeste , OBTER_ID_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iii",&inxGrafo, &CondRetEsp, &noCorrenteEsperado) ;
+			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_ObterNoCorrente( VTGRAFO[ inxGrafo ],&noCorrente) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			   return TST_CompararInt( noCorrenteEsperado, noCorrente , "Nó diferente do esperado");
+		 }
+
+		  else if (strcmp( ComandoTeste , IR_VIZINHO_CMD ) == 0)
+		 {
+			 numLidos = LER_LerParametros( "iii",&inxGrafo, &CondRetEsp, &noCorrente) ;
+			  if ( ( numLidos != 3 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+			  CondRet =(TST_tpCondRet) GRA_IrNoVizinho( VTGRAFO[ inxGrafo ],noCorrente) ;
+			   if ( CondRet != CondRetEsp )
+            {
+              printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);
+            } 
+			    return TST_CompararInt( CondRetEsp, CondRet, "Condição de retorno errada no IrNoVizinho");
+		 }
       return TST_CondRetNaoConhec ;
 
    } /* Fim fun��o: TGRA &Testar grafo */
-
 
 
 /*****  C�digo das fun��es encapsuladas no m�dulo  *****/
