@@ -13,7 +13,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       LM    22/SET/2014 início desenvolvimento
+*     1       LM,LS  22/SET/2014 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -114,7 +114,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 	  int noCorrenteEsperado;
 	  int* intpointer;
       int numElem = -1 ;
-
+	  int valorAresta;
       StringDado[ 0 ] = 0 ;
 
       /* Efetuar reset de teste de grafo */
@@ -253,12 +253,12 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
 		 /* Testar InserirAresta */
 		  else if (strcmp( ComandoTeste , INSERIR_ARESTA_CMD ) == 0)
 		 {
-			 numLidos = LER_LerParametros( "iiii",&inxGrafo,&i,&j,&CondRetEsp) ;
-			  if ( ( numLidos != 4 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
+			 numLidos = LER_LerParametros( "iiiii",&inxGrafo,&i,&j,&valorAresta,&CondRetEsp) ;
+			  if ( ( numLidos != 5 )|| ( ! ValidarInxGrafo( inxGrafo , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
-			  CondRet =(TST_tpCondRet) GRA_InserirAresta( VTGRAFO[ inxGrafo ],i,j) ;
+			  CondRet =(TST_tpCondRet) GRA_InserirAresta( VTGRAFO[ inxGrafo ],i,j,valorAresta) ;
 			   if ( CondRet != CondRetEsp )
             {
               printf("\nA CondRet foi %d\n",CondRet);
@@ -365,6 +365,7 @@ GRA_tppGrafo   VTGRAFO[ DIM_VT_GRAFO ] ;
                return TST_CondRetParm ;
             } /* if */
 			  CondRet =(TST_tpCondRet) GRA_IrParaNo( VTGRAFO[ inxGrafo ],noCorrente) ;
+			  
 			   if ( CondRet != CondRetEsp )
             {
               printf("\nA CondRet foi %d\n %d %d",CondRet,i,j);

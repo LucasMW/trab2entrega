@@ -50,7 +50,7 @@
 
 
 ***************************************************************************/
-﻿typedef struct GRA_tagGrafo * GRA_tppGrafo ;
+typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 
 typedef enum {
 
@@ -64,7 +64,7 @@ typedef enum {
 	       /* A aresta já existe */		
 		 GRA_CondRetNoNaoExiste,
 	       /* O nó não existe */
-		 GRA_CondRetArestaNaoExiste
+		 GRA_CondRetArestaNaoExiste,
 	       /* A aresta já existe */
    		GRA_CondRetJaEsta
 
@@ -152,6 +152,7 @@ GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
 *	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
 *	  no_x_Id		- ID de um dos vértices onde será colocada a aresta
 *	  no_y_Id		- ID do outro vértice onde será colocada a aresta
+*	  idAresta		- Inteiro a ser adicionado à aresta 
 *
 *  $FV Valor retornado
 *     Se executou corretamente retorna GRA_CondRetOK
@@ -161,7 +162,7 @@ GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id, int idAresta);
 
 
 /***********************************************************************
