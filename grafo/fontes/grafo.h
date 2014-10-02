@@ -225,12 +225,66 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 
 GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void ** pInfo);
 
+/***********************************************************************
+*
+* $FC Função: GRA &Obter Nó Corrente
+*
+* $ED Descrição da função
+* 	Esta Função recebe um grafo e retorna por ref o Id 
+	do nó corrente, pelo qual ele poderá ser acessado e operado.
+* $EP Parâmetros
+* 	grafo - ponteiro para a cabeça do grafo a ser impresso
+* 	refId - o endereço da variável que receberá o valor do id do nó
+* $FV Valor retornado
+* 	Se executou corretamente retornará GRA_CondRetOK.
+* 	Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
+	Se o nó não existir retornará GRA_CondRetNoNaoExiste..
+*
+*
+***********************************************************************/
 GRA_tpCondRet GRA_ObterNoCorrente( GRA_tppGrafo grafo, int * refId);
 
 GRA_tpCondRet GRA_IrNoVizinho( GRA_tppGrafo grafo, int noVizinho);
-
+/***********************************************************************
+*
+* $FC Função: GRA &Obter Valor do Nó
+*
+* $ED Descrição da função
+* 	Esta Função recebe um id do vértice e faz o ponteiro cujo endereço 
+* 	é recebido apontar para a informação do nó.
+* $EP Parâmetros
+* 	grafo - ponteiro para a cabeça do grafo a ser impresso
+* 	noId - inteiro para o Id do nó cujo valor será recebido
+* 	endVar - o endereço do ponteiro que receberá o nó
+* $FV Valor retornado
+* 	Se executou corretamente retornará GRA_CondRetOK.
+* 	Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
+* 	Se o nó não existir retornará GRA_CondRetNoNaoExiste.
+*
+*
+***********************************************************************/
 GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar);
 
+/***********************************************************************
+*
+* $FC Função: GRA &Ir Para Nó
+*
+* $ED Descrição da função
+* 	Esta Função recebe um id do vértice e o situa o elemento corrente
+* 	da estrutura.
+* 	Caso o nó não exista, a função vai manter o valor corrente recebido
+*
+* $EP Parâmetros
+* 	grafo - ponteiro para a cabeça do grafo a ser impresso
+* 	noId - inteiro para o Id do nó que virará corrente
+* 	
+* $FV Valor retornado
+* 	Se executou corretamente retornará GRA_CondRetOK.
+* 	Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
+* 	Se o nó não existir retornará GRA_CondRetNoNaoExiste.
+*
+*
+***********************************************************************/
 GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId);
 
 
