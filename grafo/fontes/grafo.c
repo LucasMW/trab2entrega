@@ -13,7 +13,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       LM,LS   22/SET/2014 início desenvolvimento
+*     1       LM   22/SET/2014 início desenvolvimento
 
 ***************************************************************************/
 #include <stdio.h>
@@ -44,8 +44,10 @@
 
          void ( * ExcluirValor ) ( void * pValor ) ;
                /* Ponteiro para a função de destruição do valor contido em um elemento */
-	int idCorrente;
-				/* id do vértice corrente */
+
+		 int idCorrente;
+			/* Ponteiro para o id do vértice corrente */
+
    } GRA_tpGrafo ;
 
    /***********************************************************************
@@ -78,6 +80,8 @@
    GRA_noGrafo noApontado;
 
    int verticeId;
+
+   int idAresta;
    
    };
    typedef struct GRA_arestaGrafo* GRA_tpAresta;
@@ -86,28 +90,72 @@
 
    static int IdExisteJa( GRA_tppGrafo grafo, int id );
 
-   static void AtualizaConexos( GRA_tppGrafo grafo, int node_i, int node_j, int addOrTake);
 
    /* Faltam as funções auxiliares da AtualizaConexos que talvez sejam usadas ou nao*/
 
 /*****  Código das funções exportadas pelo módulo  *****/
+
+   int visitados[1000]; /*vetor auxiliar da dfs*/
+
+
+static int VerificaVisitados ( int * visitados, int qtdNos)
+{
+	int i = 0;
+	for ( i; i<qtdNos; i++){
+		if (visitados[i] == 0)
+			return 0;
+	}
+	return 1;
+}
+/*int dfs(GRA_tppGrafo grafo, int node_i, int node_j)
+{
+	int ret = 0;
+	GRA_tpAresta aresta;
+	GRA_noGrafo no;
+	do{
+		no = (GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if (no->verticeId == node_j || no->verticeId == node_i)
+			break;
+	}while(LIS_AvancarElementoCorrente( grafo->pVertices ,1 )!=LIS_CondRetFimLista); 
+	
+	LIS_IrInicioLista(no->listaArestas);
+	
+	do{
+		aresta = (GRA_tpAresta)LIS_ObterValor(no->listaArestas);
+		if (aresta == NULL)
+			break;
+		if (aresta->verticeId == node_j || aresta->verticeId == node_i)
+			return 1;
+		if (visitados[aresta->verticeId] == 0){
+			visitados[aresta->verticeId] = 1;
+			ret = dfs(grafo, no->verticeId, aresta->verticeId);
+		}
+
+
+	}while(LIS_AvancarElementoCorrente( no->listaArestas ,1 )!=LIS_CondRetFimLista); 
+
+	return ret;
+}*/
+
 
 /***************************************************************************
 *
 *  Função: GRA  &Criar Grafo
 *  ****/
 
-GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo)
+GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo,  void   ( * ExcluirValor ) ( void * pDado ))
 {
 	GRA_tpGrafo* tempgraf;
 	tempgraf=(GRA_tpGrafo*)malloc(sizeof(GRA_tpGrafo));
+	tempgraf->ExcluirValor = ExcluirValor;
 	if(!tempgraf)
 		return  GRA_CondRetFaltouMemoria;
-	if(LIS_CriarLista(&tempgraf->pOrigens,free)!=LIS_CondRetOK)
+	if(LIS_CriarLista(&tempgraf->pOrigens,tempgraf->ExcluirValor)!=LIS_CondRetOK)
 		return GRA_CondRetFaltouMemoria;
-	if(LIS_CriarLista(&tempgraf->pVertices,free)!=LIS_CondRetOK)
+	if(LIS_CriarLista(&tempgraf->pVertices,tempgraf->ExcluirValor)!=LIS_CondRetOK)
 		return GRA_CondRetFaltouMemoria;
 	/* Não houve problemas , retorne OK */
+	tempgraf->idCorrente = 0;
 	*refgrafo=tempgraf; //return by reference
 	return GRA_CondRetOK;
 }
@@ -129,14 +177,14 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo )
 	free(grafo);
 	grafo=NULL; //never be acessed again
 	return GRA_CondRetOK;
-}
-
+}	 
 /* Fim função: GRA  &Destruir grafo */
 
 /***************************************************************************
 *
 *  Função: GRA &Inserir No
 *  ****/
+
 
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int * pNoId)
 {
@@ -164,18 +212,60 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo, int * pNoId)
 	if(LIS_CriarLista(&novoNo->listaArestas,free)==LIS_CondRetFaltouMemoria)
 		return GRA_CondRetFaltouMemoria;
 	LIS_InserirElementoApos(grafo->pVertices,novoNo); //cria nova elementolista na lista de nós representando esse vértice
-	LIS_InserirElementoApos(grafo->pOrigens,novaOrigem); //Linka a componenteconexa ao novo nó sem arestas
+	LIS_InserirElementoApos(grafo->pOrigens,novaOrigem); //Linka a componente conexa ao novo nó sem arestas
+	grafo->idCorrente = id;
 	*pNoId = id;
 	return GRA_CondRetOK;
 }
+
 /* Fim função: GRA  &Inserir No */
+
+/***************************************************************************
+*
+*  Função: GRA &Remover No
+*  ****/
+
+GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id)
+{
+	GRA_noGrafo noRemovido;
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return  GRA_CondRetGrafoVazio;
+	if(!IdExisteJa(grafo,Id))
+		return GRA_CondRetNoNaoExiste;
+	do{
+		noRemovido=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noRemovido->verticeId==Id)
+			break;
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+	LIS_DestruirLista(noRemovido->listaArestas);
+	LIS_ExcluirElemento( grafo->pVertices);
+	noRemovido = (GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+	if (grafo->idCorrente == Id)
+		grafo->idCorrente = noRemovido->verticeId;
+	
+	return GRA_CondRetOK;
+}
+
+/* Fim função: GRA  &Remover No */
+
+/***************************************************************************
+*
+*  Função: GRA &Remover No Corrente
+*  ****/
+
+GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo )
+{
+	return (GRA_ExcluirNo(grafo, grafo->idCorrente));
+}
+
+/* Fim função: GRA  &Remover No Corrente */
 
 /***************************************************************************
 *
 *  Função: GRA &Inserir Aresta
 *  ****/
 
-GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
+GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, int idAresta)
 {
 	int i = 0, j = 0;
 	GRA_noGrafo  noOrigem, noDestino;
@@ -216,7 +306,8 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
 	}while(LIS_AvancarElementoCorrente( noOrigem->listaArestas ,1 )!=LIS_CondRetFimLista);
 
 	aresta1->verticeId = noDestino->verticeId;
-	aresta1->noApontado = noDestino;	
+	aresta1->noApontado = noDestino;
+	aresta1->idAresta	= idAresta;
 
 	LIS_InserirElementoApos(noOrigem->listaArestas,aresta1);
 	
@@ -234,14 +325,14 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
 	
 	aresta2->verticeId = noOrigem->verticeId;
 	aresta2->noApontado = noOrigem;
+	aresta2->idAresta	= idAresta;
 
 	LIS_InserirElementoApos(noDestino->listaArestas, aresta2);
-	/*AtualizaConexos(grafo, node_i, node_j,1);*/
+	
 	
 
 	return GRA_CondRetOK;
 }
-
 /* Fim função: GRA  &Inserir Aresta */
 
 /***************************************************************************
@@ -307,7 +398,7 @@ GRA_tpCondRet  GRA_ExcluirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
 	
 	if (flag == 0)
 		return GRA_CondRetArestaNaoExiste;
-	/*AtualizaConexos(grafo, node_i, node_j,0);*/
+	
 	return GRA_CondRetOK;
 }
 /* Fim função: GRA  &Excluir Aresta */
@@ -373,11 +464,67 @@ GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo )
 	
 	LIS_EsvaziarLista(grafo->pOrigens);
 	LIS_EsvaziarLista(grafo->pVertices);
+	grafo->idCorrente = 0;
 	
 
 	return GRA_CondRetOK;
 }
+
 /* Fim função: GRA  &Esvaziar grafo */
+
+/***************************************************************************
+*
+*  Função: GRA &Obter No Corrente
+*  ****/
+
+
+GRA_tpCondRet GRA_ObterNoCorrente( GRA_tppGrafo grafo, int * refId)
+{
+	*refId = grafo->idCorrente;
+	if (grafo->idCorrente == 0){
+		return GRA_CondRetGrafoVazio;
+	}	
+	return GRA_CondRetOK;
+
+}
+
+/* Fim função: GRA  &Obter No Corrente */
+
+/***************************************************************************
+*
+*  Função: GRA &Ir No Vizinho
+*  ****/
+
+
+GRA_tpCondRet GRA_IrNoVizinho( GRA_tppGrafo grafo, int noVizinho)
+{
+	GRA_noGrafo noOrigem;
+	GRA_tpAresta aresta;
+	if (grafo->idCorrente == noVizinho)
+		return GRA_CondRetJaEsta;
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return  GRA_CondRetGrafoVazio;
+	if(!IdExisteJa(grafo,noVizinho))
+		return GRA_CondRetNoNaoExiste;
+	do{
+		noOrigem=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(noOrigem->verticeId==grafo->idCorrente)
+			break;
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+	LIS_IrInicioLista(noOrigem->listaArestas);
+	do{
+		aresta=(GRA_tpAresta)LIS_ObterValor(noOrigem->listaArestas);
+		if(aresta->verticeId==noVizinho){
+			grafo->idCorrente = noVizinho;
+			return GRA_CondRetOK;
+		}
+	}while(LIS_AvancarElementoCorrente(noOrigem->listaArestas,1)!=LIS_CondRetFimLista);
+
+	return GRA_CondRetArestaNaoExiste;
+
+}
+
+/* Fim função: GRA  &Ir No Vizinho */
 
 /***************************************************************************
 *
@@ -400,6 +547,42 @@ GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar)
 	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
 	/* Nao Achou */
 	return GRA_CondRetNoNaoExiste;
+}
+/* Fim função: GRA  &Obter valor no */
+
+/***************************************************************************
+*
+*  Função: GRA &Ir para no
+*  ****/
+
+
+GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId)
+{
+	GRA_noGrafo no;
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return  GRA_CondRetGrafoVazio;
+	do 
+	{   no=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
+		if(no->verticeId==noId)
+		{ /* Achou */
+			grafo->idCorrente = noId;
+			return GRA_CondRetOK;
+		}
+	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
+	/* Nao Achou */
+	return GRA_CondRetNoNaoExiste;
+}
+/* Fim função: GRA  &Ir para no */
+
+/***************************************************************************
+*
+*  Função: GRA &Obert Valor no
+*  ****/
+
+
+GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void** endVar)
+{
+	return (GRA_ObterValorNo(grafo,grafo->idCorrente,endVar));
 }
 /* Fim função: GRA  &Obter valor no */
 
