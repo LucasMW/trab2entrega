@@ -239,3 +239,47 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 *     
 ***********************************************************************/
 GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar);
+
+/***********************************************************************
+*
+*  $FC Função: GRA  &Ir Para Nó
+*
+*  $ED Descrição da função
+*     Esta Função recebe um id do vértice e o situa o elemento corrente 
+*	  da estrutura.
+*	  Caso o nó não exista, a função vai manter o valor corrente recebido
+*	  
+*  $EP Parâmetros
+*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
+*	  noId			- inteiro para o Id do nó que virará corrente
+*	  endVar		- o endereço da variável que receberá o valor do nó
+*  $FV Valor retornado
+*     Se executou corretamente retornará GRA_CondRetOK.
+*	  Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
+*     Se o nó não existir retornará GRA_CondRetNoNaoExiste.
+*
+*     
+***********************************************************************/
+
+GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId);
+
+/***********************************************************************
+*
+*  $FC Função: GRA  &Obter Nó Corrente
+*
+* 
+*
+*  $ED Descrição da função
+*     Esta Função recebe um grafo e retorna por ref a informação	
+*	  do nó corrente
+*  $EP Parâmetros
+*	  grafo			- ponteiro para a cabeça do grafo a ser impresso
+*	  endVar		- o endereço da variável que receberá o valor do nó
+*  $FV Valor retornado
+*     Se executou corretamente retornará GRA_CondRetOK.
+*	  Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
+*     Se o nó não existir retornará GRA_CondRetNoNaoExiste..
+*
+*     
+***********************************************************************/
+GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void** endVar);
