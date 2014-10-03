@@ -1,6 +1,6 @@
 /***************************************************************************
 *
-* $MCD Módulo de definição: GRA GRAFO Genérico  duplamente encadeada
+* $MCD Módulo de definição: GRA GRAFO Genérico 
 *
 * Arquivo gerado: grafo.h
 * Letras identificadoras: GRA
@@ -16,10 +16,11 @@
 * 1     LM,LS 22/set/2014 Início do Desenvolvimento
 *
 * $ED Descrição do módulo
-* Implementa Um grafo genérico cujas arestas são bidirecionais 
-*  O grafo é definido como um conjunto de vértices (ou nós) e suas arestas
+* Implementa Um grafo genérico não dirigido, i.e. , 
+* (para todo nó A e B) A está ligado em B <=> B está ligado em A.
 * 
-* Arestas Bidirecionais significam que se (para todo nó A e B) A está ligado em B <=> B está ligado em A
+* O grafo é definido como um conjunto de vértices (ou nós) e suas arestas.
+* 
 * Cada vértice gerado é identificado por um inteiro >= 1 e não há dois vértice com 
 * a mesma identificação coexistindo no mesmo grafo.
 * 
@@ -30,7 +31,9 @@
 * Podem existir n grafos em operação simultaneamente.
 * Os grafos possuem uma cabeça encapsulando o seu estado.
 * 
-* 
+* Alternativamente aos indices dos nós, os grafos podem ser operados por operações
+* de elemento corrente
+*
 * Cada grafo é homogêneo quanto ao tipo dos dados que armazena.
 * Cada vértice do grafo referencia o valor que contém.
 *
@@ -41,9 +44,8 @@
 * é realizado por uma função fornecida pelo usuário.
 *
 * Cada grafo referencia uma função que determina como devem ser
-* desalocados os dados nela contidos.
+* desalocados os dados nele contidos.
 *
-
 * Esta função é chamada antes de se desalocar um vértice
 * de um grafo.
 
@@ -75,9 +77,9 @@ typedef enum {
 *  $FC Função: GRA  &Criar grafo
 *
 *  $ED Descrição da função
-*     Cria um grafo genérico composto de lista de componentes conexas e e uma lista de vertices
+*     Cria um grafo genérico não dirigido vazio
 *     Os possíveis tipos de elementos armazenados nos nós do grafo são desconhecidos a priori
-*     Esta função apenas inicializa as listas de componentes conexas (vértices e Comp Conexas) 
+*     Esta função inicializa as estruturas reguladoras do grafo
 *
 *  $EP Parâmetros
 *	  refgrafo		- endereço ponteiro para a cabeça do grafo a ser gerado, a ser retornado por referência
@@ -88,8 +90,6 @@ typedef enum {
 *
 *  $FV Valor retornado
 *     Se executou corretamente retornará a GRA_CondRetOK
-*     
-*
 *     Se ocorreu alguma alocação de memória não conseguir ser realizada
 *     a função retornará GRA_CondRetFaltouMemoria.
 *    
@@ -102,16 +102,14 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo,  void   ( * ExcluirValor )
 *  $FC Função: GRA  &Destruir grafo
 *
 *  $ED Descrição da função
-*     
+*     Esvazia o grafo recebido e destrói suas estruturas de controle.
 *
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
+*	  grafo			- ponteiro para a cabeça do grafo a ser destruido
 *
 *  $FV Valor retornado
-*     Se executou corretamente retorna por referência o ponteiro para o grafo e retornará
-*	  a GRA_CondRetOK
-*     Se ocorreu que alguma alocação de memória não pôde ser realizada,
-*	  a função retornará GRA_CondRetFaltouMemoria.
+*     Se executou corretamente retorna retornará a GRA_CondRetOK
+*    
 *    
 *
 ***********************************************************************/
@@ -126,9 +124,9 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 *  $ED Descrição da função
 *     A função trata de inserir um novo nó no grafo, dando a ele um id único, pelo qual poderá ser 
 *     identificado e operado posteriormente. Também o associará a uma informação qualquer, passada
-*	  pelo parâmetro pInfo. Por definição um novo nó não tem arestas e é uma nova componente conexa.
+*	  pelo parâmetro pInfo. Por definição um novo nó não tem arestas.
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo 
+*	  grafo			- ponteiro para a cabeça do grafo 
 *	  pInfo			- endereço a informação a ser armazenada no grafo
 *	  pNoId			- endereço da variável que receberá o id do grafo criado, retornado por referência
 *  $FV Valor retornado
@@ -144,10 +142,12 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
 *  $FC Função: GRA  &Excluir Nó
 *
 *  $ED Descrição da função
-*     A função recebe o id do nó a ser excluído do grafo.
+*     A função recebe um grafo o id do nó a ser excluído do respectivo grafo.
+*     Se o Nó a ser removido é o nó corrente, o nó corrente passa ser outro qualquer
+*	  
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo
-*	  Id			- endereço do no a ser excluido
+*	  grafo			- ponteiro para a cabeça do grafo
+*	  Id			- id do no a ser excluido
 *  $FV Valor retornado
 *     Se executou corretamente retornará GRA_CondRetOK
 *     Se o no nao existir retornará GRA_CondRetNoNaoExiste
@@ -163,9 +163,10 @@ GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id);
 *  $FC Função: GRA  &Excluir Nó Corrente
 *
 *  $ED Descrição da função
-*     A função exclui o no corrente do grafo. O no corrente passa a ser o anterior.
+*     A função exclui o no corrente do grafo. 
+*		O no corrente passa a ser outro qualquer.
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo
+*	  grafo			- ponteiro para a cabeça do grafo
 *  $FV Valor retornado
 *     Se executou corretamente retornará GRA_CondRetOK
 *	  Se o grafo estiver vazio retornará GRA_CondRetGrafoVazio
@@ -181,10 +182,10 @@ GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
 *
 *  $ED Descrição da função
 *     A função insere uma nova aresta entre os nós cujos Id foram passados como parâmetro. Por definição
-*	  toda aresta que liga o nó A ao B, liga o nó B ao A também. A função também atualiza as componentes conexas.
+*	  toda aresta que liga o nó A ao B, liga o nó B ao A também. 
 *
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
+*	  grafo			- ponteiro para a cabeça do grafo no qual a aresta será inserida
 *	  no_x_Id		- ID de um dos vértices onde será colocada a aresta
 *	  no_y_Id		- ID do outro vértice onde será colocada a aresta
 *	  idAresta		- Inteiro a ser adicionado à aresta 
@@ -207,12 +208,11 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id, 
 *
 *  $ED Descrição da função
 *     A função exclui uma aresta existente entre os nós cujos Id foram passados como parâmetros.
-*	  A função também atualiza as componentes conexas.
-*
+*	  
 *  $EP Parâmetros
-*	  grafo			- endereço ponteiro para a cabeça do grafo a ser destruido
-*	  no_x_Id		- ID de um dos vértices onde será colocada a aresta
-*	  no_y_Id		- ID do outro vértice onde será colocada a aresta
+*	  grafo			- ponteiro para a cabeça do grafo cuja aresta será destruida
+*	  no_x_Id		- ID de um dos vértices cuja aresta será destruída
+*	  no_y_Id		- ID do outro vértice cuja aresta será destruída
 *
 *  $FV Valor retornado
 *     Se executou corretamente retorna GRA_CondRetOK
@@ -255,7 +255,7 @@ GRA_tpCondRet GRA_EsvaziarGrafo( GRA_tppGrafo grafo );
 *	 
 *  $FV Valor retornado
 *     Se executou corretamente retornará GRA_CondRetOK
-*     
+*     Se o grafo está vazio, retornará GRA_CondRetGrafoVazio
 *
 *     
 ***********************************************************************/
@@ -266,8 +266,9 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 * $FC Função: GRA &Obter Valor do Nó Corrente
 *
 * $ED Descrição da função
-* 	Esta Função recebe um  ponteiro cujo endereço 
-* 	é recebido apontar para a informação do nó corrente.
+* 	Esta Função transmite ao ponteiro cujo endereço é recebido
+*   a informação do nó corrente. Este passa a apontar 
+*	para essa informação.
 * $EP Parâmetros
 * 	grafo - ponteiro para a cabeça do grafo a ser impresso
 * 	pInfo - o endereço do ponteiro que receberá o nó
