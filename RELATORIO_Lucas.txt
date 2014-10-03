@@ -20,3 +20,7 @@ Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 30/SET/2014; 2.5h; Revisei Projeto; Revisei o modelo físico e as assertivas do labirinto
 01/SET/2014; 2h; Revisar módulos; Revisei múltiplos módulos e suas documentações
 01/SET/2014; 2h; Realizei Testes; Realizei múltiplos testes nos executáveis, inclusindo testandos numa virtualização Windows XP SP2
+02/SET/2014; 2h; Realizei testes; Revi vários testes identificando falhas, e retestando
+02/SET/2014; 2h; Revisei script de teste; Revi Scripts de Teste e os editei
+02/SET/2014; 3h; Revisar código de módulo; Revi toda a documentação das funções no grafo.h
+
