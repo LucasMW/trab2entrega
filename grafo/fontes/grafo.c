@@ -202,10 +202,16 @@ GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id)
 	}while(LIS_AvancarElementoCorrente(grafo->pVertices,1)!=LIS_CondRetFimLista);
 	LIS_DestruirLista(noRemovido->listaArestas);
 	LIS_ExcluirElemento( grafo->pVertices);
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia){
+		grafo->idCorrente = 0;
+		return GRA_CondRetOK;
+	}
+	
 	noRemovido = (GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
 	if (grafo->idCorrente == Id)
 		grafo->idCorrente = noRemovido->verticeId;
 		/* if */
+	
 	
 	return GRA_CondRetOK;
 }
