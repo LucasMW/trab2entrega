@@ -64,15 +64,17 @@
 
 
 ==InserirNo
-=inserirno grafo2 str2  OK no1
-=inserirno grafo1 str1 OK	no1
-=inserirno grafo4 str0  OK	no1
-=inserirno grafo5 str3 OK	no1
+=inserirno grafo2 str2  OK 
+=inserirno grafo1 str1 OK	
+=inserirno grafo4 str0  OK	
+=excluirno grafo4 1 OK
+=obteridcorr grafo4 Vazio 0
+=inserirno grafo5 str3 OK	
 
 ==Imprimir Grafos denovo
 =imprimirgrafo grafo1 OK
 =imprimirgrafo grafo2 OK
-=imprimirgrafo grafo4 OK
+=imprimirgrafo grafo4 Vazio
 =imprimirgrafo grafo5 OK
 
 ==Inserir Series De Nos no grafo2 e testes com ObterValor e IdCorrente
@@ -130,7 +132,7 @@
 =excluirno     grafo2 10 NoNaoExiste
 =excluirno     grafo2 20 NoNaoExiste
 =excluircorr   grafo2 OK
-=obteridcorr   grafo2 OK 13
+=obteridcorr   grafo2 OK 1
 
 ==Mais testes com movimentacao
 =irpara		   grafo2 2 OK
