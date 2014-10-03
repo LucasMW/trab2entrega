@@ -470,6 +470,7 @@ GRA_tpCondRet GRA_IrNoVizinho( GRA_tppGrafo grafo, int noVizinho)
 		return  GRA_CondRetGrafoVazio;
 	if(!IdExisteJa(grafo,noVizinho))
 		return GRA_CondRetNoNaoExiste;
+	LIS_IrInicioLista(grafo->pVertices);
 	do{
 		noOrigem=(GRA_noGrafo)LIS_ObterValor(grafo->pVertices);
 		if(noOrigem->verticeId==grafo->idCorrente)
