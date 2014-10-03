@@ -3,7 +3,12 @@ Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 20/SET/2014; 1h; especificar os módulos; Especificamos que os módulos a apresentar serão grafo e lista, e esboçamos o diagrama da arquitetura.
 20/SET/2014; 1h; especificar as funções; Especificamos as funções do módulo grafo
 20/SET/2014; 0.5h Revisar projetos; Revisamos a organização dos diretórios e criamos convenções de nomes 	
-23/SET/2014; 2h; Estudo dos módulos
-24/SET/2014; 1.5h; Estudo dos modulos
-25/SET/2014; 3h; Implementação dos modulos
-26/SET?2014; 3h; Implementação dos modulos
+23/SET/2014; 2h; Estudo dos módulos; Analisamos os tipos do módulo grafo
+24/SET/2014; 1.5h; Estudo dos modulos; Planejamos o módulo grafo
+25/SET/2014; 3h; Codificar módulos; Implementação do modulo grafo e testegra
+26/SET/2014; 3h; Codificar módulos;  Implementação do modulo grafo e testegra
+28/SET/2014; 1h; Codificar módulos; Implementação do modulo grafo e testegra
+29/SET/2014; 3h; Revisar código do módulos; Revisão de erros no modulo
+30/SET/2014; 3h; Codificar módulos; Implementação de novas funções
+1/OCT/2014;  1h; Redigir script de teste e diagnosticar; Criação do script de teste e revisão de erros
+2/OCT/2014; 3h;  realizar os testes; Testes finais e correção de bugs
