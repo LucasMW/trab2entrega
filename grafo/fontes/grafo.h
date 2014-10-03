@@ -287,7 +287,3 @@ GRA_tpCondRet GRA_ObterValorNo(GRA_tppGrafo grafo, int noId,void** endVar);
 *
 ***********************************************************************/
 GRA_tpCondRet GRA_IrParaNo(GRA_tppGrafo grafo,int noId);
-
-
-
-
