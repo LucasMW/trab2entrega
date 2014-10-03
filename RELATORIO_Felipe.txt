@@ -6,3 +6,7 @@ Data ; Horas Trabalhadas ; Tipo Tarefa ; Descrição da Tarefa Realizada
 20/SET/2014; 0.5h Revisar projetos; Revisamos a organização dos diretórios e criamos convenções de nomes 	
 21/SET/2014; 2h; Revisar projetos; Criação do Diagrama de Arquitetura dos módulos do programa.
 26/SET/2014; 2h; Revisar projetos; Criação do Modelo físico dos elementos que constituem o módulo grafo.
+29/SET/2014; 2h; Revisar projetos; Alteração do Modelo físico dos elementos que constituem o módulo grafo.
+30/SET/2014; 3h; Revisar projetos; Alteração do Modelo físico dos elementos que constituem o módulo grafo.
+01/OUT/2014; 3h; Revisar projetos; Conclusão do Modelo físico dos elementos que constituem o módulo grafo e alteração do Diagrama de Arquitetura.
+02/OUT/2014; 3h; Revisar projetos; Elaboração das Assertivas de Entrada e Saída.
