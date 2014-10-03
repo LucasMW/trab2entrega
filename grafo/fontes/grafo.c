@@ -237,6 +237,9 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int node_i, int node_j, in
 	aresta1= (GRA_tpAresta)malloc(sizeof(struct GRA_arestaGrafo));
 	aresta2= (GRA_tpAresta)malloc(sizeof(struct GRA_arestaGrafo));
 	
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return GRA_CondRetGrafoVazio;
+	
 	if (!IdExisteJa(grafo, node_j))
 		return GRA_CondRetNoNaoExiste;
 	if  (!IdExisteJa(grafo, node_i))
@@ -309,7 +312,8 @@ GRA_tpCondRet  GRA_ExcluirAresta( GRA_tppGrafo grafo, int node_i, int node_j)
 	int i = 0, j = 0, flag = 0;
 	GRA_noGrafo  noOrigem, noDestino;
 	GRA_tpAresta noComp;
-	
+	if(LIS_IrInicioLista(grafo->pVertices)==LIS_CondRetListaVazia)
+		return GRA_CondRetGrafoVazio;
 	if (!IdExisteJa(grafo, node_j))
 		return GRA_CondRetNoNaoExiste;
 	if  (!IdExisteJa(grafo, node_i))
@@ -663,4 +667,3 @@ static GRA_tpCondRet IrParaCorr(GRA_tppGrafo grafo)
 		return GRA_CondRetGrafoVazio;
 	return GRA_IrParaNo(grafo,grafo->idCorrente);
 }
-
