@@ -1,10 +1,13 @@
-Para Executar o projeto
+﻿Para Executar o projeto
 
 Para ler o Diagrama da Arquitetura da aplicação:
 clicar em diag_arq.pdf
 
 Para ler o Modelo Físico e suas Assertivas:
 Clicar em MFA.pdf
+
+Para ver o Exemplo de Labirinto:
+Clicar em exemplo.pdf
 
 Para ler os Requisitos do projeto
 Clicar em requisitos.pdf

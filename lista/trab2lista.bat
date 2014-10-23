@@ -1,1 +1,1 @@
-trab2lista.exe /sTesteLista.script >output.log
+TRAB2-1.exe /sTesteLista.script >output.log
