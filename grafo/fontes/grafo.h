@@ -152,7 +152,19 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo grafo );
 *     Se executou corretamente retornará GRA_CondRetOK
 *     Se Faltou memória em qualquer parte do processo, retornará GRA_CondRetFaltouMemoria
 *
-*     
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        pGrafo terá um novo nó com o valor e identificador dados
+*     SE GRA_CondRetFaltouMemoria
+*        pGrafo não será modificado
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL  
+* 
+* 
 ***********************************************************************/
 GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
 
@@ -172,7 +184,7 @@ GRA_tpCondRet   GRA_InserirNo ( GRA_tppGrafo grafo, void * pInfo,int* pNoId);
 *     Se o no nao existir retornará GRA_CondRetNoNaoExiste
 *	  Se o grafo estiver vazio retornará GRA_CondRetGrafoVazio
 *
-*     
+*  
 ***********************************************************************/
 
 GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id);
@@ -190,7 +202,19 @@ GRA_tpCondRet   GRA_ExcluirNo ( GRA_tppGrafo grafo, int Id);
 *     Se executou corretamente retornará GRA_CondRetOK
 *	  Se o grafo estiver vazio retornará GRA_CondRetGrafoVazio
 *
-*     
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        o antigo nó corrente de pGrafo será excluído
+*        o novo nó corrente será o primeiro da lista de nós
+*        ou o novo nó corrente será NULL, caso o grafo esteja vazio
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL  
+* 
+* 
 ***********************************************************************/
 
 GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
@@ -344,7 +368,7 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 *     pGrafo deve ser ponteiro válido para um grafo do módulo
 *     ppValor != NULL
 *
-*  $EAE Assertivas de saída
+* $EAE Assertivas de saída
 *     SE GRA_CondRetOK
 *        ppValor conterá ponteiro para o valor contido no vértice corrente
 *     SE GRA_CondRetPonteiroNulo
