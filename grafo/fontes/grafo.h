@@ -92,6 +92,16 @@ typedef enum {
 *     Se executou corretamente retornará a GRA_CondRetOK
 *     Se ocorreu alguma alocação de memória não conseguir ser realizada
 *     a função retornará GRA_CondRetFaltouMemoria.
+* 
+*  $EAE Assertivas de entrada
+*     ExcluirValor é um ponteiro para uma função que tem a como objetivo excluir os
+*        valores que serão usados nos vértices do grafo
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        ppGrafo conterá um ponteiro para um grafo
+*     SE GRA_CondRetFaltouMemoria
+*        ppGrafo não será modificado
 *    
 *
 ***********************************************************************/
@@ -110,6 +120,15 @@ GRA_tpCondRet GRA_CriarGrafo( GRA_tppGrafo* refgrafo,  void   ( * ExcluirValor )
 *  $FV Valor retornado
 *     Se executou corretamente retorna retornará a GRA_CondRetOK
 *    
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        pGrafo terá sido liberado e será agora um ponteiro inválido
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL
 *    
 *
 ***********************************************************************/
@@ -195,7 +214,25 @@ GRA_tpCondRet   GRA_ExcluirNoCorrente ( GRA_tppGrafo grafo);
 *	  Se um dos nós nao existe, retorna GRA_CondRetNoNaoExiste
 *	  Se a aresta já existe, retorna GRA_CondRetArestaJaExiste
 *	  Se o grafo estiver vazio retornará GRA_CondRetGrafoVazio
-*    
+*  
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*     idVerticeDestino deve ser um identificador de vértice válido
+*     idAresta deve ser uma string de no máximo 9 caracteres válidos
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        pGrafo terá uma nova aresta apontando do vértice corrente 
+*           ao vértice destino
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL
+*     SE GRA_CondRetArestaJaExiste
+*        já existia uma aresta ligando o vértice corrente ao vértice destino
+*     SE GRA_CondRetVerticeInvalido
+*        idVerticeDestino não é um identificador de vértice válido
+*     SE GRA_CondRetFaltouMemoria
+*        pGrafo não será modificado
 *
 ***********************************************************************/
 
@@ -219,7 +256,22 @@ GRA_tpCondRet  GRA_InserirAresta( GRA_tppGrafo grafo, int no_x_Id, int no_y_Id, 
 *	  Se um dos nós nao existe, retorna GRA_CondRetNoNaoExiste
 *	  Se a aresta não existe, retorna GRA_CondRetArestaNaoExiste
 *	  Se o grafo estiver vazio retornará GRA_CondRetGrafoVazio
-*    
+*   
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*     idVértice deve ser um id válido de um vértice existente
+*
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        pGrafo terá uma nova origem
+*        vértice cujo id é idVertice será uma origem
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL
+*     SE GRA_CondRetVerticeInvalido
+*        idVertice não era um identificado válido de uma vértice existente
+*     SE GRA_CondRetFaltouMemoria
+*        pGrafo não será modificado
 *
 ***********************************************************************/
 GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
@@ -237,7 +289,18 @@ GRA_tpCondRet  GRA_ExcluirAresta (GRA_tppGrafo grafo, int no_x_Id, int no_y_Id);
 *  $FV Valor retornado
 *     Se executou corretamente retornará GRA_CondRetOK
 *	  Se o grafo já estava vazio, retorna GRA_CondRetGrafoVazio
+*  
+*  $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
 *
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        pGrafo terá sido esvaziado: todos os vértices, arestas e origens
+*        terão sido excluídos
+*        vértice corrente será NULL
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL
 *     
 ***********************************************************************/
 
@@ -276,7 +339,18 @@ GRA_tpCondRet  GRA_ImprimirGrafo(GRA_tppGrafo grafo);
 * 	Se executou corretamente retornará GRA_CondRetOK.
 * 	Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
 *
+* $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*     ppValor != NULL
 *
+*  $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        ppValor conterá ponteiro para o valor contido no vértice corrente
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL ou ppValor era NULL
+* 
+* 
 ***********************************************************************/
 
 GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void ** pInfo);
@@ -287,15 +361,25 @@ GRA_tpCondRet GRA_ObterValorNoCorrente(GRA_tppGrafo grafo, void ** pInfo);
 *
 * $ED Descrição da função
 * 	Esta Função recebe um grafo e retorna por ref o Id 
-	do nó corrente, pelo qual ele poderá ser acessado e operado.
+*	do nó corrente, pelo qual ele poderá ser acessado e operado.
 * $EP Parâmetros
 * 	grafo - ponteiro para a cabeça do grafo a ser impresso
 * 	refId - o endereço da variável que receberá o valor do id do nó
 * $FV Valor retornado
 * 	Se executou corretamente retornará GRA_CondRetOK.
 * 	Se o grafo for vazio retornará GRA_CondRetGrafoVazio.
-	Se o nó não existir retornará GRA_CondRetNoNaoExiste..
+*	Se o nó não existir retornará GRA_CondRetNoNaoExiste..
 *
+* $EAE Assertivas de entrada
+*     pGrafo != NULL
+*     pGrafo deve ser ponteiro válido para um grafo do módulo
+*     ppValor != NULL
+*
+* $EAE Assertivas de saída
+*     SE GRA_CondRetOK
+*        ppValor conterá ponteiro para o valor contido no vértice corrente
+*     SE GRA_CondRetPonteiroNulo
+*        pGrafo era NULL ou ppValor era NULL
 *
 ***********************************************************************/
 GRA_tpCondRet GRA_ObterNoCorrente( GRA_tppGrafo grafo, int * refId);
